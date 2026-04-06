@@ -1,6 +1,8 @@
 ---
 // ProductSuite.astro — three product cards, home page
-import SectionMarker from '../../ui/SectionMarker.astro';
+import { SectionMarker } from '@/components/ui/SectionMarker';
+import { Button } from '@/components/ui/Button';
+import { StatusDot } from '@/components/ui/StatusDot';
 
 const products = [
   {
@@ -48,12 +50,12 @@ const products = [
     ],
     indicator: 'Coming soon',
   },
-];
+] as const;
 
 const statusConfig = {
-  live:  { dot: 'bg-pass blink', label: 'Live',  labelClass: 'text-pass'    },
-  beta:  { dot: 'bg-warning',    label: 'Beta',  labelClass: 'text-warning'  },
-  soon:  { dot: 'bg-text-dim',   label: 'Soon',  labelClass: 'text-text-dim' },
+  live:  { color: 'pass',  blink: true,  label: 'Live',  labelClass: 'text-pass'     } as const,
+  beta:  { color: 'warning', blink: false, label: 'Beta',  labelClass: 'text-warning'  } as const,
+  soon:  { color: 'muted',  blink: false, label: 'Soon',  labelClass: 'text-text-dim' } as const,
 };
 ---
 
@@ -62,9 +64,9 @@ const statusConfig = {
 
     <SectionMarker label="02 / Products" />
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base mb-0">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base">
       {products.map((p, i) => {
-        const cfg = statusConfig[p.status as keyof typeof statusConfig];
+        const cfg = statusConfig[p.status];
         const isLive = p.status === 'live';
         return (
           <div class:list={[
@@ -76,14 +78,12 @@ const statusConfig = {
             <!-- Card header -->
             <div class="px-6 pt-8 pb-6 border-b border-border-dim">
               <div class="flex items-center justify-between mb-4">
-                <!-- Status -->
                 <div class="flex items-center gap-2">
-                  <span class:list={["inline-block w-1.5 h-1.5", cfg.dot]} />
+                  <StatusDot color={cfg.color} blink={cfg.blink} />
                   <span class:list={["font-mono text-xs uppercase tracking-widest", cfg.labelClass]}>
                     {cfg.label}
                   </span>
                 </div>
-                <!-- Product ID -->
                 <span class="font-mono text-xs text-text-dim uppercase tracking-widest">
                   GC / {p.id.toUpperCase()}
                 </span>
@@ -101,43 +101,21 @@ const statusConfig = {
             <div class="px-6 py-6 flex-1 space-y-3">
               {p.checks.map(check => (
                 <div class="flex items-start gap-3">
-                  <span class="inline-block w-1 h-1 bg-text-dim mt-1.5 flex-shrink-0" />
-                  <span class="font-body text-sm text-text-muted leading-snug">
-                    {check}
-                  </span>
+                  <StatusDot color="muted" size="xs" className="mt-1.5" />
+                  <span class="font-body text-sm text-text-muted leading-snug">{check}</span>
                 </div>
               ))}
             </div>
 
             <!-- Card footer / CTA -->
             <div class="px-6 pb-8">
-              {isLive ? (
-                <a
-                  href={p.href}
-                  class="
-                    inline-flex items-center gap-2 w-full justify-center
-                    px-5 py-3 bg-accent text-bg-base border border-accent
-                    font-mono text-xs uppercase tracking-widest
-                    hover:bg-transparent hover:text-accent
-                    transition-all duration-150
-                  "
-                >
-                  {p.cta}
-                </a>
-              ) : (
-                <a
-                  href={p.href}
-                  class="
-                    inline-flex items-center gap-2 w-full justify-center
-                    px-5 py-3 bg-transparent text-text-muted border border-border-base
-                    font-mono text-xs uppercase tracking-widest
-                    hover:border-border-focus hover:text-text-primary
-                    transition-all duration-150
-                  "
-                >
-                  {p.cta}
-                </a>
-              )}
+              <Button
+                href={p.href}
+                variant={isLive ? 'primary' : 'ghost'}
+                className="w-full justify-center"
+              >
+                {p.cta}
+              </Button>
               <p class="font-mono text-xs text-text-dim text-center mt-3">
                 {p.indicator}
               </p>

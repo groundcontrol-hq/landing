@@ -1,6 +1,7 @@
 ---
 // WhatWeCheck.astro — full check list in two columns
-import SectionMarker from '../../ui/SectionMarker.astro';
+import { SectionMarker } from '@/components/ui/SectionMarker';
+import { StatusDot } from '@/components/ui/StatusDot';
 
 const categories = [
   {
@@ -68,11 +69,11 @@ const categories = [
       </h2>
       <div class="flex items-center gap-6 pb-1">
         <div class="flex items-center gap-2">
-          <span class="inline-block w-1.5 h-1.5 bg-pass" />
+          <StatusDot color="pass" />
           <span class="font-mono text-xs text-text-dim uppercase tracking-widest">Available</span>
         </div>
         <div class="flex items-center gap-2">
-          <span class="inline-block w-1.5 h-1.5 bg-text-dim" />
+          <StatusDot color="muted" />
           <span class="font-mono text-xs text-text-dim uppercase tracking-widest">Coming soon</span>
         </div>
       </div>
@@ -95,10 +96,7 @@ const categories = [
           <div class="divide-y divide-border-dim">
             {cat.checks.map(check => (
               <div class="flex items-center gap-4 px-6 py-3">
-                <span class:list={[
-                  "inline-block w-1.5 h-1.5 flex-shrink-0",
-                  check.status === 'pass' ? "bg-pass" : "bg-text-dim",
-                ]} />
+                <StatusDot color={check.status === 'pass' ? 'pass' : 'muted'} />
                 <span class:list={[
                   "font-mono text-xs leading-relaxed",
                   check.status === 'pass' ? "text-text-muted" : "text-text-dim",

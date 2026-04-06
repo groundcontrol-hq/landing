@@ -1,5 +1,21 @@
 ---
 // HeroHome.astro — Ground Control platform home hero
+import { Button } from '@/components/ui/Button';
+import { StatusDot } from '@/components/ui/StatusDot';
+
+const monitorRows = [
+  { domain: 'fourgreen.it',      status: 'pass',     checks: '8/8', time: '2m ago'  },
+  { domain: 'mail.fourgreen.it', status: 'warning',  checks: '6/8', time: '2m ago'  },
+  { domain: 'acmecorp.com',      status: 'critical', checks: '4/8', time: '6h ago'  },
+  { domain: 'techstartup.io',    status: 'pass',     checks: '8/8', time: '6h ago'  },
+  { domain: 'eurosystems.eu',    status: 'warning',  checks: '7/8', time: '12h ago' },
+] as const;
+
+const statusDotColor = {
+  pass:     'pass',
+  warning:  'warning',
+  critical: 'critical',
+} as const;
 ---
 
 <section class="
@@ -15,7 +31,7 @@
     aria-hidden="true"
   />
 
-  <!-- Corner marks — aerospace detail -->
+  <!-- Corner marks -->
   <div class="absolute top-8 left-8 w-6 h-6 border-l border-t border-border-focus opacity-40" aria-hidden="true" />
   <div class="absolute top-8 right-8 w-6 h-6 border-r border-t border-border-focus opacity-40" aria-hidden="true" />
   <div class="absolute bottom-8 left-8 w-6 h-6 border-l border-b border-border-focus opacity-40" aria-hidden="true" />
@@ -29,7 +45,7 @@
 
         <!-- Status pill -->
         <div class="inline-flex items-center gap-2 border border-border-base bg-bg-raised px-3 py-1.5 mb-10">
-          <span class="inline-block w-1.5 h-1.5 bg-pass blink" />
+          <StatusDot color="pass" blink />
           <span class="font-mono text-xs text-text-muted uppercase tracking-widest">
             Now available — Sentinel free tier
           </span>
@@ -57,39 +73,15 @@
         </p>
 
         <div class="flex flex-wrap items-center gap-3 mb-12">
-          <a
-            href="/sentinel"
-            class="
-              px-6 py-3 bg-accent text-bg-base border border-accent
-              font-mono text-xs uppercase tracking-widest
-              hover:bg-transparent hover:text-accent
-              transition-all duration-150
-            "
-          >
-            Start with Sentinel →
-          </a>
-          <a
-            href="#products"
-            class="
-              px-6 py-3 bg-transparent text-text-muted border border-border-base
-              font-mono text-xs uppercase tracking-widest
-              hover:border-border-focus hover:text-text-primary
-              transition-all duration-150
-            "
-          >
-            See all products
-          </a>
+          <Button href="/sentinel">Start with Sentinel →</Button>
+          <Button href="#products" variant="ghost">See all products</Button>
         </div>
 
         <!-- Trust micro-strip -->
         <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
-          {[
-            'EU data residency',
-            'NIS2 ready',
-            'Founded in Italy',
-          ].map(item => (
+          {['EU data residency', 'NIS2 ready', 'Founded in Italy'].map(item => (
             <div class="flex items-center gap-2">
-              <span class="inline-block w-1 h-1 bg-accent" />
+              <StatusDot color="accent" size="xs" />
               <span class="font-mono text-xs text-text-dim uppercase tracking-widest">
                 {item}
               </span>
@@ -101,15 +93,13 @@
 
       <!-- Right: monitor panel -->
       <div class="relative hidden lg:block">
-
-        <!-- Fake terminal / monitor panel -->
         <div class="card-cut bg-border-base p-px">
         <div class="bg-bg-raised card-cut overflow-hidden">
 
           <!-- Panel header -->
           <div class="flex items-center justify-between px-4 py-2.5 border-b border-border-base bg-bg-overlay">
             <div class="flex items-center gap-2">
-              <span class="inline-block w-1.5 h-1.5 bg-pass blink" />
+              <StatusDot color="pass" blink />
               <span class="font-mono text-xs text-text-muted uppercase tracking-widest">
                 Ground Control / Monitor
               </span>
@@ -121,20 +111,12 @@
 
           <!-- Fake check results -->
           <div class="p-4 space-y-1">
-            {[
-              { domain: 'fourgreen.it',       status: 'pass',     checks: '8/8', time: '2m ago'  },
-              { domain: 'mail.fourgreen.it',  status: 'warning',  checks: '6/8', time: '2m ago'  },
-              { domain: 'acmecorp.com',       status: 'critical', checks: '4/8', time: '6h ago'  },
-              { domain: 'techstartup.io',     status: 'pass',     checks: '8/8', time: '6h ago'  },
-              { domain: 'eurosystems.eu',     status: 'warning',  checks: '7/8', time: '12h ago' },
-            ].map(row => (
+            {monitorRows.map(row => (
               <div class="flex items-center gap-4 px-3 py-2.5 hover:bg-bg-subtle transition-colors duration-150">
-                <span class:list={[
-                  "inline-block w-1.5 h-1.5 flex-shrink-0",
-                  row.status === 'pass'     && "bg-pass",
-                  row.status === 'warning'  && "bg-warning",
-                  row.status === 'critical' && "bg-critical blink",
-                ]} />
+                <StatusDot
+                  color={statusDotColor[row.status]}
+                  blink={row.status === 'critical'}
+                />
                 <span class="font-mono text-xs text-text-primary flex-1 truncate">
                   {row.domain}
                 </span>

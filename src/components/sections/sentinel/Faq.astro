@@ -1,94 +1,72 @@
 ---
-// Faq.astro — FAQ with pure CSS accordion (no JS library needed at this scale)
-import SectionMarker from '../../ui/SectionMarker.astro';
+// Faq.astro
+import { SectionMarker } from "@/components/ui/SectionMarker";
+import { Accordion } from "@/components/ui/Accordion";
+import { StatusDot } from "@/components/ui/StatusDot";
 
 const faqs = [
   {
-    q: 'Does it require DNS changes or agents installed on my servers?',
-    a: 'No. Sentinel reads your public DNS records over HTTPS. No DNS changes, no server access, no agents, no code to deploy. You add a domain name and we handle the rest.',
+    value: "dns-agents",
+    question: "Does it require DNS changes or agents installed on my servers?",
+    answer:
+      "No. Sentinel reads your public DNS records over HTTPS. No DNS changes, no server access, no agents, no code to deploy. You add a domain name and we handle the rest.",
   },
   {
-    q: 'What exactly does it check for Microsoft 365?',
-    a: 'We check whether DKIM signing is enabled for your custom domain (not just the onmicrosoft.com default), whether your Conditional Access policies have country-based restrictions, MFA configuration gaps, and your outbound sending limit usage. We surface the gaps that M365\'s own dashboard buries in menus most admins never visit.',
+    value: "m365",
+    question: "What exactly does it check for Microsoft 365?",
+    answer:
+      "We check whether DKIM signing is enabled for your custom domain (not just the onmicrosoft.com default), whether your Conditional Access policies have country-based restrictions, MFA configuration gaps, and your outbound sending limit usage. We surface the gaps that M365's own dashboard buries in menus most admins never visit.",
   },
   {
-    q: 'How is this different from MXToolbox?',
-    a: 'MXToolbox is a manual, point-in-time checker. You run it when you remember to. Sentinel is continuous monitoring — we run the equivalent of MXToolbox every 6 hours, store the history, alert you the moment anything changes, and generate a compliance report from the results. MXToolbox tells you what\'s wrong today. Sentinel tells you the moment something goes wrong.',
+    value: "vs-mxtoolbox",
+    question: "How is this different from MXToolbox?",
+    answer:
+      "MXToolbox is a manual, point-in-time checker. You run it when you remember to. Sentinel is continuous monitoring — we run the equivalent of MXToolbox every 6 hours, store the history, alert you the moment anything changes, and generate a compliance report from the results. MXToolbox tells you what's wrong today. Sentinel tells you the moment something goes wrong.",
   },
   {
-    q: 'Is my data stored in Europe?',
-    a: 'Yes. All data is stored in Frankfurt, Germany (AWS eu-central-1). We are an Italian company operating under EU law with GDPR-compliant data processing. Data processing agreements are available in English and Italian.',
+    value: "data-residency",
+    question: "Is my data stored in Europe?",
+    answer:
+      "Yes. All data is stored in Frankfurt, Germany (AWS eu-central-1). We are an Italian company operating under EU law with GDPR-compliant data processing. Data processing agreements are available in English and Italian.",
   },
   {
-    q: 'What does the NIS2 report actually include?',
-    a: 'The report maps each of your findings to the relevant NIS2 Article 21 sub-clause, shows which controls are passing and which are failing, includes the specific remediation steps for each failure, and generates a dated PDF you can share with customers, auditors, or the Italian ACN. It is an automated technical controls assessment — not a legal certification, which we state clearly in the report.',
+    value: "nis2-report",
+    question: "What does the NIS2 report actually include?",
+    answer:
+      "The report maps each of your findings to the relevant NIS2 Article 21 sub-clause, shows which controls are passing and which are failing, includes the specific remediation steps for each failure, and generates a dated PDF you can share with customers, auditors, or the Italian ACN. It is an automated technical controls assessment — not a legal certification, which we state clearly in the report.",
   },
   {
-    q: 'Can I monitor multiple domains from one account?',
-    a: 'Yes. The free tier covers 3 domains. Pro and Team cover unlimited domains. All domains are monitored on the same schedule and shown in a unified dashboard. You can add subdomains separately — for example monitoring yourcompany.it, mail.yourcompany.it, and news.yourcompany.it as three separate entries.',
+    value: "multi-domain",
+    question: "Can I monitor multiple domains from one account?",
+    answer:
+      "Yes. The free tier covers 3 domains. Pro and Team cover unlimited domains. All domains are monitored on the same schedule and shown in a unified dashboard. You can add subdomains separately — for example monitoring yourcompany.it, mail.yourcompany.it, and news.yourcompany.it as three separate entries.",
   },
   {
-    q: 'What happens when you find a problem?',
-    a: 'You receive an alert via your configured channel (email, Slack, webhook, or Microsoft Teams) with the specific finding, its severity, and the exact remediation step to fix it. We don\'t send you a vague "something is wrong" message — we tell you which check failed, why it matters, and what to change in your DNS or M365 configuration.',
+    value: "alerts",
+    question: "What happens when you find a problem?",
+    answer:
+      'You receive an alert via your configured channel (email, Slack, webhook, or Microsoft Teams) with the specific finding, its severity, and the exact remediation step to fix it. We don\'t send you a vague "something is wrong" message — we tell you which check failed, why it matters, and what to change in your DNS or M365 configuration.',
   },
 ];
 ---
 
 <section class="border-b border-border-base bg-bg-raised px-6 py-24">
   <div class="max-w-4xl mx-auto">
-
     <SectionMarker label="06 / FAQ" />
 
-    <h2 class="font-display font-bold uppercase text-4xl text-text-primary mb-12">
+    <h2
+      class="font-display font-bold uppercase text-4xl text-text-primary mb-12"
+    >
       Common questions.
     </h2>
 
-    <!-- Pure CSS accordion using details/summary -->
-    <div class="space-y-0 border border-border-base divide-y divide-border-base">
-      {faqs.map((faq, i) => (
-        <details class="group">
-          <summary class="
-            flex items-center justify-between
-            px-6 py-5 cursor-pointer
-            list-none
-            hover:bg-bg-subtle
-            transition-colors duration-150
-          ">
-            <span class="font-body text-sm text-text-primary font-medium pr-8 leading-snug">
-              {faq.q}
-            </span>
-            <!-- Plus/minus indicator -->
-            <div class="
-              w-5 h-5 border border-border-base flex-shrink-0
-              flex items-center justify-center
-              group-open:border-accent
-              transition-colors duration-150
-            ">
-              <span class="
-                font-mono text-xs text-text-muted
-                group-open:text-accent
-                leading-none
-              ">
-                <span class="group-open:hidden">+</span>
-                <span class="hidden group-open:block">−</span>
-              </span>
-            </div>
-          </summary>
-
-          <div class="px-6 pb-6 border-t border-border-dim">
-            <p class="font-body text-sm text-text-muted leading-relaxed pt-5">
-              {faq.a}
-            </p>
-          </div>
-        </details>
-      ))}
-    </div>
+    <Accordion items={faqs} client:visible />
 
     <!-- Still have questions -->
     <div class="mt-8 flex items-center gap-4">
-      <span class="inline-block w-1 h-1 bg-text-dim" />
+      <StatusDot size="xs" color="muted" />
       <p class="font-mono text-xs text-text-dim">
-        Still have questions?{' '}
+        Still have questions?{" "}
         <a
           href="mailto:hello@groundcontrol.land"
           class="text-accent hover:underline"
@@ -97,6 +75,5 @@ const faqs = [
         </a>
       </p>
     </div>
-
   </div>
 </section>

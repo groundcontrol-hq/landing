@@ -1,6 +1,5 @@
 ---
-// HeroSentinel.astro — Sentinel page hero with domain checker input
-import DomainChecker from './DomainChecker.astro';
+import DomainChecker from "@/components/ui/DomainChecker";
 ---
 
 <section
@@ -62,6 +61,6 @@ import DomainChecker from './DomainChecker.astro';
       and SSL certificates — continuously, automatically, and for free.
     </p>
 
-    <DomainChecker />
+    <DomainChecker client:load />
   </div>
 </section>

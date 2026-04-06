@@ -1,18 +1,21 @@
 ---
 // Nav.astro — sticky navigation
 import Logo from '../ui/Logo.astro';
+import { Button } from '@/components/ui/Button';
+import { StatusDot } from '@/components/ui/StatusDot';
+
 const currentPath = Astro.url.pathname;
 
 const products = [
   { label: 'Sentinel', href: '/sentinel', live: true  },
   { label: 'Desk',     href: '/desk',     live: false },
   { label: 'Launch',   href: '/launch',   live: false },
-];
+] as const;
 
 const nav = [
   { label: 'Pricing',  href: '/sentinel#pricing' },
   { label: 'Blog',     href: '/blog' },
-];
+] as const;
 ---
 
 <header
@@ -31,10 +34,7 @@ const nav = [
   ">
 
     <!-- Wordmark -->
-    <a
-      href="/"
-      class="flex items-center gap-3 group"
-    >
+    <a href="/" class="flex items-center gap-3 group">
       <Logo />
       <span class="font-display text-sm font-semibold text-text-primary uppercase tracking-widest">
         Ground Control
@@ -52,24 +52,16 @@ const nav = [
             "border-r border-border-dim",
             "transition-colors duration-150",
             p.live
-              ? [
-                  currentPath.startsWith(p.href)
-                    ? "text-accent"
-                    : "text-text-muted hover:text-text-primary",
-                ]
+              ? currentPath.startsWith(p.href)
+                  ? "text-accent"
+                  : "text-text-muted hover:text-text-primary"
               : "text-text-dim cursor-default",
           ]}
           aria-disabled={!p.live}
         >
-          <!-- Status square -->
-          <span class:list={[
-            "inline-block w-1 h-1",
-            p.live ? "bg-pass" : "bg-text-dim",
-          ]} />
+          <StatusDot color={p.live ? 'pass' : 'muted'} size="xs" />
           {p.label}
-          {!p.live && (
-            <span class="text-[10px] text-text-dim">SOON</span>
-          )}
+          {!p.live && <span class="text-[10px] text-text-dim">SOON</span>}
         </a>
       ))}
     </div>
@@ -94,18 +86,7 @@ const nav = [
       >
         Sign in
       </a>
-      <a
-        href="/sentinel#check"
-        class="
-          px-4 py-2
-          font-mono text-xs uppercase tracking-widest
-          bg-accent text-bg-base border border-accent
-          hover:bg-transparent hover:text-accent
-          transition-all duration-150
-        "
-      >
-        Start free →
-      </a>
+      <Button href="/sentinel#check" size="sm">Start free →</Button>
     </div>
 
   </nav>
@@ -129,7 +110,6 @@ const nav = [
     -webkit-backdrop-filter: blur(16px) saturate(1.4);
   }
 
-  /* noise overlay only when scrolled */
   #site-nav.nav-scrolled::before {
     content: '';
     position: absolute;
@@ -153,5 +133,5 @@ const nav = [
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll(); // run once on load
+  onScroll();
 </script>

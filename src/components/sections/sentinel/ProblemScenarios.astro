@@ -1,6 +1,7 @@
 ---
 // ProblemScenarios.astro — three real attack/failure scenarios
-import SectionMarker from '../../ui/SectionMarker.astro';
+import { SectionMarker } from '@/components/ui/SectionMarker';
+import { StatusDot } from '@/components/ui/StatusDot';
 
 const scenarios = [
   {
@@ -58,7 +59,7 @@ const scenarios = [
               </h3>
             </div>
             <div class="flex items-start gap-2 mt-auto">
-              <span class="inline-block w-1 h-1 bg-pass mt-1.5 flex-shrink-0" />
+              <StatusDot color="pass" size="xs" className="mt-1.5" />
               <span class="font-mono text-xs text-pass leading-relaxed">
                 {s.check}
               </span>

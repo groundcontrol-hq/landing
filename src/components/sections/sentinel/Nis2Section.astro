@@ -1,45 +1,53 @@
 ---
 // Nis2Section.astro — NIS2 compliance angle
-import SectionMarker from '../../ui/SectionMarker.astro';
+import { SectionMarker } from "@/components/ui/SectionMarker";
+import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
+import { StatusDot } from "@/components/ui/StatusDot";
+import { SeverityBadge } from "@/components/ui/SeverityBadge";
 
 const articles = [
   {
-    ref:     'Art. 21(2)(h)',
-    topic:   'Cryptography & encryption',
-    checks:  ['DKIM signing', 'SSL/TLS enforcement', 'MTA-STS policy'],
-    status:  'covered',
+    ref: "Art. 21(2)(h)",
+    topic: "Cryptography & encryption",
+    checks: ["DKIM signing", "SSL/TLS enforcement", "MTA-STS policy"],
   },
   {
-    ref:     'Art. 21(2)(c)',
-    topic:   'Business continuity',
-    checks:  ['Domain expiry', 'MX record health', 'SSL expiry monitoring'],
-    status:  'covered',
+    ref: "Art. 21(2)(c)",
+    topic: "Business continuity",
+    checks: ["Domain expiry", "MX record health", "SSL expiry monitoring"],
   },
   {
-    ref:     'Art. 21(2)(i)',
-    topic:   'Asset management',
-    checks:  ['Domain inventory', 'Certificate tracking', 'Subdomain monitoring'],
-    status:  'covered',
+    ref: "Art. 21(2)(i)",
+    topic: "Asset management",
+    checks: [
+      "Domain inventory",
+      "Certificate tracking",
+      "Subdomain monitoring",
+    ],
   },
   {
-    ref:     'Art. 21(2)(j)',
-    topic:   'Multi-factor authentication',
-    checks:  ['M365 Conditional Access', 'MFA gap detection', 'Sign-in policy check'],
-    status:  'covered',
+    ref: "Art. 21(2)(j)",
+    topic: "Multi-factor authentication",
+    checks: [
+      "M365 Conditional Access",
+      "MFA gap detection",
+      "Sign-in policy check",
+    ],
   },
-];
+] as const;
 ---
 
 <section class="border-b border-border-base bg-bg-overlay noise px-6 py-24">
   <div class="max-w-7xl mx-auto">
-
     <SectionMarker label="04 / NIS2 Compliance" />
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-
       <!-- Left: copy -->
       <div>
-        <h2 class="font-display font-bold uppercase text-4xl text-text-primary leading-tight mb-6">
+        <h2
+          class="font-display font-bold uppercase text-4xl text-text-primary leading-tight mb-6"
+        >
           NIS2 compliance<br />
           isn't optional.<br />
           <span class="text-accent">We make it less painful.</span>
@@ -47,42 +55,35 @@ const articles = [
 
         <p class="font-body text-base text-text-muted leading-relaxed mb-6">
           If your company falls under NIS2 — or supplies to companies that do —
-          Article 21 requires demonstrable technical controls around email security,
-          encryption, and asset management.
+          Article 21 requires demonstrable technical controls around email
+          security, encryption, and asset management.
         </p>
 
         <p class="font-body text-base text-text-muted leading-relaxed mb-10">
           Sentinel maps every finding to the relevant NIS2 article and generates
-          a report you can share with customers, auditors, or the ACN.
-          No consultant required. No six-month implementation.
+          a report you can share with customers, auditors, or the ACN. No
+          consultant required. No six-month implementation.
         </p>
 
         <!-- Disclaimer -->
         <div class="border border-border-base bg-bg-raised p-5 mb-10">
           <p class="font-mono text-xs text-text-dim leading-relaxed">
-            <span class="text-text-muted font-medium">Note:</span> Sentinel
-            assesses technical controls only. Formal NIS2 compliance
-            requires organisational measures and may require an accredited
-            auditor. This report documents your technical posture — it does
-            not constitute legal certification.
+            <span class="text-text-muted font-medium">Note:</span> Sentinel assesses
+            technical controls only. Formal NIS2 compliance requires organisational
+            measures and may require an accredited auditor. This report documents
+            your technical posture — it does not constitute legal certification.
           </p>
         </div>
 
-        <a
+        <Button
           href="/sentinel-nis2-sample.pdf"
-          class="
-            inline-flex items-center gap-3
-            px-6 py-3 bg-transparent text-accent border border-accent
-            font-mono text-xs uppercase tracking-widest
-            hover:bg-accent hover:text-bg-base
-            transition-all duration-150
-          "
+          variant="outline"
           target="_blank"
           rel="noopener"
         >
-          <span class="inline-block w-1.5 h-1.5 bg-accent" />
+          <StatusDot color="accent" size="xs" />
           Download sample report →
-        </a>
+        </Button>
 
         <p class="font-mono text-xs text-text-dim mt-3">
           Available on the Team plan — €79/month
@@ -90,51 +91,42 @@ const articles = [
       </div>
 
       <!-- Right: article mapping -->
-      <div class="space-y-0 border border-border-base">
-
+      <div class="border border-border-base">
         <div class="px-5 py-3 border-b border-border-base bg-bg-raised">
-          <span class="font-mono text-xs text-text-dim uppercase tracking-widest">
+          <span
+            class="font-mono text-xs text-text-dim uppercase tracking-widest"
+          >
             NIS2 Article 21 — Coverage map
           </span>
         </div>
 
-        {articles.map((a, i) => (
-          <div class:list={[
-            "px-5 py-5",
-            i < articles.length - 1 && "border-b border-border-dim",
-          ]}>
-            <div class="flex items-start justify-between gap-4 mb-3">
-              <div>
-                <span class="font-mono text-xs text-accent block mb-1">
-                  {a.ref}
-                </span>
-                <span class="font-body text-sm text-text-primary font-medium">
-                  {a.topic}
-                </span>
+        {
+          articles.map((a, i) => (
+            <div
+              class:list={[
+                "px-5 py-5",
+                i < articles.length - 1 && "border-b border-border-dim",
+              ]}
+            >
+              <div class="flex items-start justify-between gap-4 mb-3">
+                <div>
+                  <span class="font-mono text-xs text-accent block mb-1">
+                    {a.ref}
+                  </span>
+                  <span class="font-body text-sm text-text-primary font-medium">
+                    {a.topic}
+                  </span>
+                </div>
+                <SeverityBadge severity="pass" label="Covered" />
               </div>
-              <span class="
-                inline-flex items-center gap-1.5 px-2 py-0.5 border
-                bg-pass-bg text-pass border-pass/30
-                font-mono text-[10px] uppercase tracking-wider flex-shrink-0
-              ">
-                <span class="inline-block w-1 h-1 bg-pass" />
-                Covered
-              </span>
+              <div class="flex flex-wrap gap-2">
+                {a.checks.map((check) => (
+                  <Badge>{check}</Badge>
+                ))}
+              </div>
             </div>
-            <div class="flex flex-wrap gap-2">
-              {a.checks.map(check => (
-                <span class="
-                  font-mono text-[10px] text-text-dim
-                  border border-border-base px-2 py-0.5
-                  uppercase tracking-wider
-                ">
-                  {check}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
-
+          ))
+        }
       </div>
     </div>
   </div>
