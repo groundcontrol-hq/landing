@@ -1,0 +1,99 @@
+---
+// CtaFinal.astro — closing CTA, repeats the domain checker
+---
+
+<section class="bg-bg-base noise px-6 py-24 relative overflow-hidden">
+
+  <!-- Corner marks -->
+  <div class="absolute top-8 left-8 w-6 h-6 border-l border-t border-border-focus opacity-30" aria-hidden="true" />
+  <div class="absolute top-8 right-8 w-6 h-6 border-r border-t border-border-focus opacity-30" aria-hidden="true" />
+  <div class="absolute bottom-8 left-8 w-6 h-6 border-l border-b border-border-focus opacity-30" aria-hidden="true" />
+  <div class="absolute bottom-8 right-8 w-6 h-6 border-r border-b border-border-focus opacity-30" aria-hidden="true" />
+
+  <div class="relative max-w-3xl mx-auto text-center">
+
+    <!-- Status -->
+    <div class="flex items-center justify-center gap-2 mb-8">
+      <span class="inline-block w-1.5 h-1.5 bg-pass blink" />
+      <span class="font-mono text-xs text-text-muted uppercase tracking-widest">
+        Scanning available now
+      </span>
+    </div>
+
+    <h2 class="font-display font-bold uppercase text-4xl md:text-5xl text-text-primary leading-tight mb-6">
+      Find out if your domain<br />
+      is vulnerable.<br />
+      <span class="text-accent">It takes 60 seconds.</span>
+    </h2>
+
+    <p class="font-body text-base text-text-muted mb-10 max-w-lg mx-auto">
+      No credit card. No installation. No DNS changes.
+      Enter your domain and see your results immediately.
+    </p>
+
+    <!-- Domain checker — same as hero -->
+    <div class="max-w-lg mx-auto mb-6">
+      <div class="flex gap-0 border border-border-base">
+        <input
+          type="text"
+          placeholder="yourcompany.com"
+          id="cta-domain-input"
+          class="
+            flex-1 bg-bg-raised px-5 py-4
+            font-mono text-sm text-text-primary
+            placeholder-text-dim border-none outline-none
+            focus:bg-bg-overlay transition-colors duration-150
+          "
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button
+          id="cta-check-btn"
+          class="
+            px-6 py-4 bg-accent text-bg-base
+            font-mono text-xs uppercase tracking-widest
+            border-l border-accent
+            hover:bg-transparent hover:text-accent
+            transition-all duration-150 flex-shrink-0
+          "
+        >
+          Scan domain →
+        </button>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-center gap-6">
+      {[
+        'Free for 3 domains',
+        'No credit card',
+        'EU data residency',
+      ].map(item => (
+        <div class="flex items-center gap-1.5">
+          <span class="inline-block w-1 h-1 bg-pass" />
+          <span class="font-mono text-xs text-text-dim">{item}</span>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // Wire the CTA domain checker to the hero checker
+  const ctaInput = document.getElementById('cta-domain-input') as HTMLInputElement;
+  const ctaBtn   = document.getElementById('cta-check-btn')   as HTMLButtonElement;
+  const heroInput = document.getElementById('domain-input')   as HTMLInputElement;
+
+  ctaBtn?.addEventListener('click', () => {
+    if (ctaInput?.value && heroInput) {
+      heroInput.value = ctaInput.value;
+      heroInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // Trigger the hero scan
+      document.getElementById('check-btn')?.click();
+    }
+  });
+
+  ctaInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') ctaBtn?.click();
+  });
+</script>

@@ -1,0 +1,72 @@
+---
+// ProblemStrip.astro — home page, the three core problems
+import SectionMarker from '../../ui/SectionMarker.astro';
+
+const problems = [
+  {
+    number: '01',
+    headline: 'Your domain is being spoofed right now.',
+    body: 'Attackers send thousands of emails pretending to be you. No login required. No access to your servers. Just a missing DMARC record.',
+    stat: '10,000',
+    statLabel: 'spoofed emails sent from one domain in a single attack',
+  },
+  {
+    number: '02',
+    headline: 'IT tickets live in email threads and spreadsheets.',
+    body: 'ServiceNow costs a fortune and takes months to configure. Linear doesn\'t have ITSM features. Your team spends more time finding tickets than fixing them.',
+    stat: '4.5h',
+    statLabel: 'average time lost per week per person to ticket chaos',
+  },
+  {
+    number: '03',
+    headline: 'Cloud deployment takes two weeks per environment.',
+    body: 'Cloud Run is excellent. Wiring preview environments per PR, secrets management, and bucket provisioning is not. Your developers are doing DevOps instead of shipping.',
+    stat: '3 days',
+    statLabel: 'to spin up a new Cloud Run preview environment from scratch',
+  },
+];
+---
+
+<section class="border-b border-border-base bg-bg-raised px-6 py-24">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionMarker label="01 / The Problem" />
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base">
+      {problems.map((p, i) => (
+        <div class:list={[
+          "p-8 flex flex-col gap-6",
+          i < problems.length - 1 && "border-b md:border-b-0 md:border-r border-border-base",
+        ]}>
+
+          <!-- Number -->
+          <span class="font-mono text-xs text-text-dim uppercase tracking-widest">
+            {p.number}
+          </span>
+
+          <!-- Headline -->
+          <h2 class="font-display font-semibold text-xl text-text-primary leading-tight">
+            {p.headline}
+          </h2>
+
+          <!-- Body -->
+          <p class="font-body text-sm text-text-muted leading-relaxed flex-1">
+            {p.body}
+          </p>
+
+          <!-- Stat -->
+          <div class="border-t border-border-dim pt-6">
+            <div class="font-display font-bold text-3xl text-accent mb-1">
+              {p.stat}
+            </div>
+            <div class="font-mono text-xs text-text-dim leading-relaxed">
+              {p.statLabel}
+            </div>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

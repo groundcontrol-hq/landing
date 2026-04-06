@@ -1,0 +1,180 @@
+---
+// Pricing.astro — full three-tier pricing table
+import SectionMarker from '../../ui/SectionMarker.astro';
+
+const tiers = [
+  {
+    name:      'Free',
+    price:     '€0',
+    period:    'forever',
+    highlight: false,
+    cta:       'Start free',
+    ctaHref:   '/signup',
+    note:      'No credit card required',
+    features: [
+      { label: 'Domains',            value: '3'           },
+      { label: 'Check frequency',    value: 'Daily'       },
+      { label: 'History',            value: '7 days'      },
+      { label: 'Alerts',             value: 'Email only'  },
+      { label: 'Users',              value: '1'           },
+      { label: 'NIS2 report',        value: '—'           },
+      { label: 'Slack / webhook',    value: '—'           },
+      { label: 'API access',         value: '—'           },
+    ],
+  },
+  {
+    name:      'Pro',
+    price:     '€29',
+    period:    'per month',
+    highlight: true,
+    cta:       'Start Pro — 14 days free',
+    ctaHref:   '/signup?plan=pro',
+    note:      'Cancel any time',
+    features: [
+      { label: 'Domains',            value: 'Unlimited'              },
+      { label: 'Check frequency',    value: 'Every 6 hours'          },
+      { label: 'History',            value: '90 days'                },
+      { label: 'Alerts',             value: 'Email + Slack + webhook' },
+      { label: 'Users',              value: '1'                      },
+      { label: 'NIS2 report',        value: '—'                      },
+      { label: 'Slack / webhook',    value: '✓'                      },
+      { label: 'API access',         value: '—'                      },
+    ],
+  },
+  {
+    name:      'Team',
+    price:     '€79',
+    period:    'per month',
+    highlight: false,
+    cta:       'Start Team — 14 days free',
+    ctaHref:   '/signup?plan=team',
+    note:      'Cancel any time',
+    features: [
+      { label: 'Domains',            value: 'Unlimited'              },
+      { label: 'Check frequency',    value: 'Every hour'             },
+      { label: 'History',            value: '1 year'                 },
+      { label: 'Alerts',             value: 'Email + Slack + webhook + Teams' },
+      { label: 'Users',              value: '5'                      },
+      { label: 'NIS2 report',        value: '✓ Full PDF export'      },
+      { label: 'Slack / webhook',    value: '✓'                      },
+      { label: 'API access',         value: '✓'                      },
+    ],
+  },
+];
+---
+
+<section id="pricing" class="border-b border-border-base bg-bg-base px-6 py-24">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionMarker label="05 / Pricing" />
+
+    <div class="flex items-end justify-between mb-12">
+      <h2 class="font-display font-bold uppercase text-4xl text-text-primary leading-tight">
+        Simple pricing.<br />
+        <span class="text-accent">No hidden fees.</span>
+      </h2>
+      <p class="font-mono text-xs text-text-dim pb-1 max-w-xs text-right leading-relaxed">
+        All plans include EU data residency.
+        Prices in EUR, billed monthly.
+        Annual billing saves 20%.
+      </p>
+    </div>
+
+    <!-- Pricing grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base mb-8">
+      {tiers.map((tier, i) => (
+        <div class:list={[
+          "flex flex-col",
+          i < tiers.length - 1 && "border-b md:border-b-0 md:border-r border-border-base",
+          tier.highlight && "bg-accent-glow",
+        ]}>
+
+          <!-- Tier header -->
+          <div class:list={[
+            "px-7 pt-8 pb-6 border-b border-border-base",
+            tier.highlight && "border-accent/20",
+          ]}>
+            {tier.highlight && (
+              <div class="inline-flex items-center gap-1.5 border border-accent/40 bg-accent-glow px-2 py-0.5 mb-4">
+                <span class="inline-block w-1 h-1 bg-accent" />
+                <span class="font-mono text-[10px] text-accent uppercase tracking-widest">Most popular</span>
+              </div>
+            )}
+            <p class="font-mono text-xs text-text-dim uppercase tracking-widest mb-3">
+              {tier.name}
+            </p>
+            <div class="flex items-baseline gap-2 mb-1">
+              <span class:list={[
+                "font-display font-bold text-4xl",
+                tier.highlight ? "text-accent" : "text-text-primary",
+              ]}>
+                {tier.price}
+              </span>
+              <span class="font-mono text-xs text-text-dim">{tier.period}</span>
+            </div>
+          </div>
+
+          <!-- Feature list -->
+          <div class="px-7 py-6 flex-1 space-y-0 divide-y divide-border-dim">
+            {tier.features.map(f => (
+              <div class="flex items-center justify-between py-2.5">
+                <span class="font-mono text-xs text-text-muted">{f.label}</span>
+                <span class:list={[
+                  "font-mono text-xs",
+                  f.value === '—' ? "text-text-dim" :
+                  f.value.startsWith('✓') ? "text-pass" : "text-text-primary",
+                ]}>
+                  {f.value}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <!-- CTA -->
+          <div class="px-7 pb-8">
+            <a
+              href={tier.ctaHref}
+              class:list={[
+                "block text-center px-5 py-3 w-full",
+                "font-mono text-xs uppercase tracking-widest",
+                "border transition-all duration-150",
+                tier.highlight
+                  ? "bg-accent text-bg-base border-accent hover:bg-transparent hover:text-accent"
+                  : "bg-transparent text-text-muted border-border-base hover:border-border-focus hover:text-text-primary",
+              ]}
+            >
+              {tier.cta}
+            </a>
+            <p class="font-mono text-xs text-text-dim text-center mt-2">
+              {tier.note}
+            </p>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+    <!-- Enterprise note -->
+    <div class="border border-border-base bg-bg-raised p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div>
+        <p class="font-mono text-xs text-text-muted mb-1">
+          <span class="text-text-primary">Need more?</span> Custom plans for larger teams,
+          MSSP resellers, and enterprise procurement with SLA and Italian-language support.
+        </p>
+      </div>
+      <a
+        href="mailto:hello@groundcontrol.land"
+        class="
+          flex-shrink-0 px-5 py-2.5
+          bg-transparent text-text-muted border border-border-base
+          font-mono text-xs uppercase tracking-widest
+          hover:border-border-focus hover:text-text-primary
+          transition-all duration-150
+        "
+      >
+        Contact us →
+      </a>
+    </div>
+
+  </div>
+</section>

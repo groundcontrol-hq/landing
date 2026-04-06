@@ -1,0 +1,92 @@
+---
+// Footer.astro
+const year = new Date().getFullYear();
+
+const cols = [
+  {
+    label: 'Products',
+    links: [
+      { label: 'Sentinel',    href: '/sentinel' },
+      { label: 'Desk',        href: '/desk' },
+      { label: 'Launch',      href: '/launch' },
+    ],
+  },
+  {
+    label: 'Company',
+    links: [
+      { label: 'About',       href: '/about' },
+      { label: 'Blog',        href: '/blog' },
+      { label: 'Changelog',   href: '/changelog' },
+      { label: 'Contact',     href: '/contact' },
+    ],
+  },
+  {
+    label: 'Legal',
+    links: [
+      { label: 'Privacy',     href: '/privacy' },
+      { label: 'Terms',       href: '/terms' },
+      { label: 'Cookies',     href: '/cookies' },
+    ],
+  },
+];
+---
+
+<footer class="border-t border-border-base bg-bg-raised noise">
+  <div class="max-w-7xl mx-auto px-6 py-16">
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
+
+      <!-- Brand column -->
+      <div class="col-span-2 md:col-span-1">
+        <a href="/" class="flex items-center gap-3 mb-4">
+          <div class="w-6 h-6 border border-accent flex items-center justify-center">
+            <div class="w-1.5 h-1.5 bg-accent" />
+          </div>
+          <span class="font-display text-xs font-semibold uppercase tracking-widest text-text-primary">
+            Ground Control
+          </span>
+        </a>
+        <p class="font-mono text-xs text-text-muted leading-relaxed">
+          Security and IT operations<br />
+          for European tech companies.
+        </p>
+      </div>
+
+      <!-- Link columns -->
+      {cols.map(col => (
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-text-dim mb-4">
+            {col.label}
+          </p>
+          <ul class="space-y-2">
+            {col.links.map(link => (
+              <li>
+                <a
+                  href={link.href}
+                  class="font-mono text-xs text-text-muted hover:text-text-primary transition-colors duration-150"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="border-t border-border-dim pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <p class="font-mono text-xs text-text-dim">
+        © {year} Ground Control. Built in Italy, hosted in Europe.
+      </p>
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-1.5 h-1.5 bg-pass" />
+        <span class="font-mono text-xs text-text-dim">
+          All systems operational
+        </span>
+      </div>
+    </div>
+
+  </div>
+</footer>

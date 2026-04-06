@@ -1,0 +1,26 @@
+---
+import Layout           from '../components/layout/Layout.astro';
+import HeroSentinel     from '../components/sections/sentinel/HeroSentinel.astro';
+import ProblemScenarios from '../components/sections/sentinel/ProblemScenarios.astro';
+import HowItWorks       from '../components/sections/sentinel/HowItWorks.astro';
+import WhatWeCheck      from '../components/sections/sentinel/WhatWeCheck.astro';
+import Nis2Section      from '../components/sections/sentinel/Nis2Section.astro';
+import Pricing          from '../components/sections/sentinel/Pricing.astro';
+import Faq              from '../components/sections/sentinel/Faq.astro';
+import CtaFinal         from '../components/sections/sentinel/CtaFinal.astro';
+---
+
+<Layout
+  title="Sentinel — Domain Security Monitoring"
+  description="Sentinel monitors your domain's email authentication, DNS configuration, and SSL certificates — continuously, automatically, and for free. NIS2-ready."
+  canonical="https://groundcontrol.land/sentinel"
+>
+  <HeroSentinel />
+  <ProblemScenarios />
+  <HowItWorks />
+  <WhatWeCheck />
+  <Nis2Section />
+  <Pricing />
+  <Faq />
+  <CtaFinal />
+</Layout>

@@ -1,0 +1,89 @@
+---
+// ProblemScenarios.astro — three real attack/failure scenarios
+import SectionMarker from '../../ui/SectionMarker.astro';
+
+const scenarios = [
+  {
+    number:   '01',
+    title:    'Domain spoofing',
+    headline: 'Attackers send emails from your domain without touching your servers.',
+    body:     'A missing or weak DMARC record means anyone can set your domain as the sender address. No login required. No access to your infrastructure. Just a free AWS account and a CSV of email addresses.',
+    note:     'We experienced this attack twice on our own domain. The second time, 10,000 emails were sent in a single day.',
+    check:    'DMARC p=reject stops this completely.',
+  },
+  {
+    number:   '02',
+    title:    'SSL expiry',
+    headline: 'Your certificate expires on a Friday evening. Nobody notices until Monday.',
+    body:     'Let\'s Encrypt renewals fail silently. Cron jobs stop running. Certificates expire. Your customers see browser security warnings and assume you\'ve been hacked. Your support inbox fills up over the weekend.',
+    note:     'SSL expiry is the most preventable outage in software. 65% of organisations have experienced it.',
+    check:    'Sentinel alerts you 30 days and 7 days before expiry.',
+  },
+  {
+    number:   '03',
+    title:    'Silent M365 misconfiguration',
+    headline: 'DKIM signing was never enabled for your custom domain.',
+    body:     'Microsoft 365 doesn\'t enable DKIM for custom domains by default. Your emails are signed with the onmicrosoft.com key. They fail DMARC alignment. They go to spam. You don\'t know because there\'s no alert — the emails just quietly underperform.',
+    note:     'This is the most common misconfiguration we find. It affects most M365 tenants that migrated from another provider.',
+    check:    'Sentinel checks your M365 DKIM status and Conditional Access gaps.',
+  },
+];
+---
+
+<section class="border-b border-border-base bg-bg-base px-6 py-24">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionMarker label="01 / The Problem" />
+
+    <h2 class="font-display font-bold uppercase text-4xl text-text-primary leading-tight mb-16 max-w-2xl">
+      What happens when<br />
+      <span class="text-accent">email authentication fails.</span>
+    </h2>
+
+    <div class="space-y-0 border border-border-base">
+      {scenarios.map((s, i) => (
+        <div class:list={[
+          "grid grid-cols-1 md:grid-cols-12 gap-0",
+          i < scenarios.length - 1 && "border-b border-border-base",
+        ]}>
+
+          <!-- Number + title column -->
+          <div class="md:col-span-3 px-8 py-8 border-b md:border-b-0 md:border-r border-border-base bg-bg-raised flex flex-col justify-between gap-6">
+            <div>
+              <span class="font-mono text-xs text-text-dim uppercase tracking-widest block mb-3">
+                {s.number}
+              </span>
+              <h3 class="font-display font-semibold text-xl text-text-primary uppercase">
+                {s.title}
+              </h3>
+            </div>
+            <div class="flex items-start gap-2 mt-auto">
+              <span class="inline-block w-1 h-1 bg-pass mt-1.5 flex-shrink-0" />
+              <span class="font-mono text-xs text-pass leading-relaxed">
+                {s.check}
+              </span>
+            </div>
+          </div>
+
+          <!-- Content column -->
+          <div class="md:col-span-9 px-8 py-8 flex flex-col gap-4">
+            <h4 class="font-body font-semibold text-lg text-text-primary leading-snug">
+              {s.headline}
+            </h4>
+            <p class="font-body text-sm text-text-muted leading-relaxed">
+              {s.body}
+            </p>
+            <!-- Personal note / stat -->
+            <div class="border-l-2 border-accent pl-4 mt-2">
+              <p class="font-mono text-xs text-text-muted italic leading-relaxed">
+                {s.note}
+              </p>
+            </div>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,157 @@
+---
+// Nav.astro — sticky navigation
+import Logo from '../ui/Logo.astro';
+const currentPath = Astro.url.pathname;
+
+const products = [
+  { label: 'Sentinel', href: '/sentinel', live: true  },
+  { label: 'Desk',     href: '/desk',     live: false },
+  { label: 'Launch',   href: '/launch',   live: false },
+];
+
+const nav = [
+  { label: 'Pricing',  href: '/sentinel#pricing' },
+  { label: 'Blog',     href: '/blog' },
+];
+---
+
+<header
+  id="site-nav"
+  class="
+    fixed top-0 inset-x-0 z-50
+    border-b
+    transition-all duration-300
+    nav-transparent
+  "
+>
+  <nav class="
+    max-w-7xl mx-auto px-6
+    flex items-center justify-between
+    h-14
+  ">
+
+    <!-- Wordmark -->
+    <a
+      href="/"
+      class="flex items-center gap-3 group"
+    >
+      <Logo />
+      <span class="font-display text-sm font-semibold text-text-primary uppercase tracking-widest">
+        Ground Control
+      </span>
+    </a>
+
+    <!-- Products -->
+    <div class="hidden md:flex items-center gap-0 border-l border-border-base ml-8 pl-8">
+      {products.map(p => (
+        <a
+          href={p.live ? p.href : undefined}
+          class:list={[
+            "flex items-center gap-2 px-4 py-1.5",
+            "font-mono text-xs uppercase tracking-widest",
+            "border-r border-border-dim",
+            "transition-colors duration-150",
+            p.live
+              ? [
+                  currentPath.startsWith(p.href)
+                    ? "text-accent"
+                    : "text-text-muted hover:text-text-primary",
+                ]
+              : "text-text-dim cursor-default",
+          ]}
+          aria-disabled={!p.live}
+        >
+          <!-- Status square -->
+          <span class:list={[
+            "inline-block w-1 h-1",
+            p.live ? "bg-pass" : "bg-text-dim",
+          ]} />
+          {p.label}
+          {!p.live && (
+            <span class="text-[10px] text-text-dim">SOON</span>
+          )}
+        </a>
+      ))}
+    </div>
+
+    <!-- Secondary nav -->
+    <div class="hidden md:flex items-center gap-6 ml-auto">
+      {nav.map(n => (
+        <a
+          href={n.href}
+          class="font-mono text-xs text-text-muted uppercase tracking-widest hover:text-text-primary transition-colors duration-150"
+        >
+          {n.label}
+        </a>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="flex items-center gap-3 ml-6">
+      <a
+        href="/signin"
+        class="font-mono text-xs text-text-muted uppercase tracking-widest hover:text-text-primary transition-colors duration-150 hidden md:block"
+      >
+        Sign in
+      </a>
+      <a
+        href="/sentinel#check"
+        class="
+          px-4 py-2
+          font-mono text-xs uppercase tracking-widest
+          bg-accent text-bg-base border border-accent
+          hover:bg-transparent hover:text-accent
+          transition-all duration-150
+        "
+      >
+        Start free →
+      </a>
+    </div>
+
+  </nav>
+</header>
+
+<style>
+  #site-nav {
+    --nav-bg: transparent;
+    background-color: var(--nav-bg);
+  }
+
+  #site-nav.nav-transparent {
+    --nav-bg: transparent;
+    border-color: transparent;
+  }
+
+  #site-nav.nav-scrolled {
+    --nav-bg: rgba(8, 11, 15, 0.65);
+    border-color: var(--color-border-base);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  }
+
+  /* noise overlay only when scrolled */
+  #site-nav.nav-scrolled::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: -1;
+  }
+</style>
+
+<script>
+  const nav = document.getElementById('site-nav');
+
+  function onScroll() {
+    if (window.scrollY > 20) {
+      nav?.classList.replace('nav-transparent', 'nav-scrolled');
+    } else {
+      nav?.classList.replace('nav-scrolled', 'nav-transparent');
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // run once on load
+</script>

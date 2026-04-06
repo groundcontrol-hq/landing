@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Backgrounds ──────────────────────────────────────────── */
+  --color-bg-base:     #080B0F;
+  --color-bg-raised:   #0D1117;
+  --color-bg-overlay:  #131920;
+  --color-bg-subtle:   #1A2230;
+
+  /* ── Borders ──────────────────────────────────────────────── */
+  --color-border-dim:  #1A2230;
+  --color-border-base: #243040;
+  --color-border-focus:#4A6FA5;
+
+  /* ── Text ────────────────────────────────────────────────── */
+  --color-text-primary:#E8EDF2;
+  --color-text-muted:  #5A7184;
+  --color-text-dim:    #3A4F61;
+
+  /* ── Accent — muted steel blue ────────────────────────────── */
+  --color-accent:      #4A8FBF;
+  --color-accent-dim:  #2D5A7A;
+  --color-accent-glow: rgba(74, 143, 191, 0.08);
+
+  /* ── Severity — desaturated ────────────────────────────────── */
+  --color-critical:    #C0392B;
+  --color-warning:     #D68910;
+  --color-pass:        #1E8449;
+  --color-info:        #2471A3;
+
+  /* ── Severity backgrounds ──────────────────────────────────── */
+  --color-critical-bg: rgba(192, 57, 43,  0.08);
+  --color-warning-bg:  rgba(214, 137, 16, 0.08);
+  --color-pass-bg:     rgba(30, 132, 73,  0.08);
+  --color-info-bg:     rgba(36, 113, 163, 0.08);
+
+  /* ── Typography ────────────────────────────────────────────── */
+  --font-display: 'Chakra Petch', sans-serif;
+  --font-body:    'IBM Plex Sans', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+
+  /* ── Border radius — all zero ─────────────────────────────── */
+  --radius-none: 0px;
+  --radius-sm:   0px;
+  --radius-md:   0px;
+  --radius-lg:   0px;
+  --radius-xl:   0px;
+  --radius-full: 0px;
+}
+
+/* ── Base resets ──────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  border-radius: 0 !important; /* nuclear option — zero radius everywhere */
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Noise texture overlay ────────────────────────────────────── */
+
+.noise {
+  position: relative;
+  isolation: isolate;
+}
+
+.noise::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.035;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Card corner cut ──────────────────────────────────────────── */
+
+.card-cut {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% 100%,
+    0 100%
+  );
+}
+
+.card-cut-sm {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 8px) 0,
+    100% 8px,
+    100% 100%,
+    0 100%
+  );
+}
+
+/* ── Scan line animation ──────────────────────────────────────── */
+
+@keyframes scanline {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(74, 143, 191, 0.04) 20%,
+    rgba(74, 143, 191, 0.08) 50%,
+    rgba(74, 143, 191, 0.04) 80%,
+    transparent 100%
+  );
+  animation: scanline 10s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Blink animation for critical status ──────────────────────── */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+.blink {
+  animation: blink 1.5s step-end infinite;
+}
+
+/* ── Selection color ──────────────────────────────────────────── */
+
+::selection {
+  background: var(--color-accent-glow);
+  color: var(--color-accent);
+}
+
+/* ── Scrollbar (webkit) ───────────────────────────────────────── */
+
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg-base); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-base);
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-border-focus); }
+
+/* ── Focus styles ─────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 1px solid var(--color-border-focus);
+  outline-offset: 2px;
+}

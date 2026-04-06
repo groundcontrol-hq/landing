@@ -1,0 +1,152 @@
+---
+// ProductSuite.astro — three product cards, home page
+import SectionMarker from '../../ui/SectionMarker.astro';
+
+const products = [
+  {
+    id:       'sentinel',
+    name:     'Sentinel',
+    tagline:  'Security monitoring',
+    status:   'live',
+    href:     '/sentinel',
+    cta:      'Start free →',
+    checks: [
+      'DNS & email authentication (SPF, DKIM, DMARC)',
+      'SSL certificate expiry monitoring',
+      'Microsoft 365 configuration health',
+      'NIS2 Article 21 compliance reports',
+    ],
+    indicator: 'Free tier available',
+  },
+  {
+    id:       'desk',
+    name:     'Desk',
+    tagline:  'IT service management',
+    status:   'beta',
+    href:     '/desk',
+    cta:      'Join waitlist →',
+    checks: [
+      'IT ticket management without the configuration hell',
+      'Service catalog with automated delivery pipelines',
+      'AI-assisted ticket resolution and routing',
+      'SLA tracking and reporting',
+    ],
+    indicator: 'Beta — join waitlist',
+  },
+  {
+    id:       'launch',
+    name:     'Launch',
+    tagline:  'Cloud deployment',
+    status:   'soon',
+    href:     '/launch',
+    cta:      'Join waitlist →',
+    checks: [
+      'Preview environments per GitHub PR on Cloud Run',
+      'Secrets management without the configuration overhead',
+      'Bucket provisioning wired to deployments',
+      'Team-level deployment controls and audit log',
+    ],
+    indicator: 'Coming soon',
+  },
+];
+
+const statusConfig = {
+  live:  { dot: 'bg-pass blink', label: 'Live',  labelClass: 'text-pass'    },
+  beta:  { dot: 'bg-warning',    label: 'Beta',  labelClass: 'text-warning'  },
+  soon:  { dot: 'bg-text-dim',   label: 'Soon',  labelClass: 'text-text-dim' },
+};
+---
+
+<section id="products" class="border-b border-border-base bg-bg-base px-6 py-24">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionMarker label="02 / Products" />
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base mb-0">
+      {products.map((p, i) => {
+        const cfg = statusConfig[p.status as keyof typeof statusConfig];
+        const isLive = p.status === 'live';
+        return (
+          <div class:list={[
+            "flex flex-col",
+            i < products.length - 1 && "border-b md:border-b-0 md:border-r border-border-base",
+            !isLive && "opacity-70",
+          ]}>
+
+            <!-- Card header -->
+            <div class="px-6 pt-8 pb-6 border-b border-border-dim">
+              <div class="flex items-center justify-between mb-4">
+                <!-- Status -->
+                <div class="flex items-center gap-2">
+                  <span class:list={["inline-block w-1.5 h-1.5", cfg.dot]} />
+                  <span class:list={["font-mono text-xs uppercase tracking-widest", cfg.labelClass]}>
+                    {cfg.label}
+                  </span>
+                </div>
+                <!-- Product ID -->
+                <span class="font-mono text-xs text-text-dim uppercase tracking-widest">
+                  GC / {p.id.toUpperCase()}
+                </span>
+              </div>
+
+              <h2 class="font-display font-bold text-3xl text-text-primary uppercase mb-1">
+                {p.name}
+              </h2>
+              <p class="font-mono text-xs text-text-muted uppercase tracking-widest">
+                {p.tagline}
+              </p>
+            </div>
+
+            <!-- Check list -->
+            <div class="px-6 py-6 flex-1 space-y-3">
+              {p.checks.map(check => (
+                <div class="flex items-start gap-3">
+                  <span class="inline-block w-1 h-1 bg-text-dim mt-1.5 flex-shrink-0" />
+                  <span class="font-body text-sm text-text-muted leading-snug">
+                    {check}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <!-- Card footer / CTA -->
+            <div class="px-6 pb-8">
+              {isLive ? (
+                <a
+                  href={p.href}
+                  class="
+                    inline-flex items-center gap-2 w-full justify-center
+                    px-5 py-3 bg-accent text-bg-base border border-accent
+                    font-mono text-xs uppercase tracking-widest
+                    hover:bg-transparent hover:text-accent
+                    transition-all duration-150
+                  "
+                >
+                  {p.cta}
+                </a>
+              ) : (
+                <a
+                  href={p.href}
+                  class="
+                    inline-flex items-center gap-2 w-full justify-center
+                    px-5 py-3 bg-transparent text-text-muted border border-border-base
+                    font-mono text-xs uppercase tracking-widest
+                    hover:border-border-focus hover:text-text-primary
+                    transition-all duration-150
+                  "
+                >
+                  {p.cta}
+                </a>
+              )}
+              <p class="font-mono text-xs text-text-dim text-center mt-3">
+                {p.indicator}
+              </p>
+            </div>
+
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>

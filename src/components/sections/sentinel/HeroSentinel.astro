@@ -1,0 +1,67 @@
+---
+// HeroSentinel.astro — Sentinel page hero with domain checker input
+import DomainChecker from './DomainChecker.astro';
+---
+
+<section
+  class="relative min-h-[calc(100vh-3.5rem)] flex flex-col justify-center
+  bg-bg-base noise
+  border-b border-border-base
+  px-6 py-24"
+>
+  <!-- Grid overlay — subtle technical background -->
+  <div
+    class="absolute inset-0 opacity-[0.03] pointer-events-none"
+    style="background-image: linear-gradient(var(--color-border-base) 1px, transparent 1px), linear-gradient(90deg, var(--color-border-base) 1px, transparent 1px); background-size: 48px 48px;"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative max-w-5xl mx-auto w-full">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 mb-12">
+      <a
+        href="/"
+        class="font-mono text-xs text-text-dim uppercase tracking-widest hover:text-text-muted transition-colors"
+      >
+        Ground Control
+      </a>
+      <span class="text-text-dim font-mono text-xs">/</span>
+      <span class="font-mono text-xs text-accent uppercase tracking-widest"
+        >Sentinel</span
+      >
+    </div>
+
+    <!-- Status line -->
+    <div class="flex items-center gap-2 mb-8">
+      <span class="inline-block w-1.5 h-1.5 bg-pass blink"></span>
+      <span class="font-mono text-xs text-text-muted uppercase tracking-widest">
+        Monitoring active — checks running every 6 hours
+      </span>
+    </div>
+
+    <!-- Main headline -->
+    <h1
+      class="font-display font-bold uppercase
+      text-4xl md:text-6xl lg:text-7xl
+      text-text-primary
+      leading-[1.05] tracking-tight
+      mb-8 max-w-4xl"
+    >
+      Is someone<br />
+      sending emails<br />
+      <span class="text-accent">pretending to be you?</span>
+    </h1>
+
+    <!-- Subheadline -->
+    <p
+      class="font-body text-base md:text-lg text-text-muted
+      max-w-2xl leading-relaxed mb-12"
+    >
+      Sentinel monitors your domain's email authentication, DNS configuration,
+      and SSL certificates — continuously, automatically, and for free.
+    </p>
+
+    <DomainChecker />
+  </div>
+</section>

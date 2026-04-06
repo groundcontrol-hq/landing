@@ -1,0 +1,72 @@
+---
+// PricingTeaser.astro — lightweight pricing section on home page
+---
+
+<section class="border-b border-border-base bg-bg-raised noise px-6 py-24">
+  <div class="max-w-3xl mx-auto text-center">
+
+    <div class="flex items-center justify-center gap-3 mb-6">
+      <div class="w-8 h-px bg-accent" />
+      <span class="font-mono text-xs text-accent uppercase tracking-widest">
+        04 / Pricing
+      </span>
+      <div class="w-8 h-px bg-accent" />
+    </div>
+
+    <h2 class="font-display font-bold uppercase text-4xl text-text-primary mb-4">
+      Free to start.<br />
+      <span class="text-accent">No surprises.</span>
+    </h2>
+
+    <p class="font-body text-base text-text-muted leading-relaxed mb-12 max-w-lg mx-auto">
+      Sentinel is free for up to 3 domains.
+      Upgrade when you need more domains, faster checks,
+      or the NIS2 compliance report.
+    </p>
+
+    <!-- Three tier summary -->
+    <div class="grid grid-cols-3 gap-0 border border-border-base mb-8 text-left">
+      {[
+        { tier: 'Free',  price: '€0',   period: 'forever',  highlight: false },
+        { tier: 'Pro',   price: '€29',  period: 'per month', highlight: true  },
+        { tier: 'Team',  price: '€79',  period: 'per month', highlight: false },
+      ].map((t, i) => (
+        <div class:list={[
+          "px-5 py-6",
+          i < 2 && "border-r border-border-base",
+          t.highlight && "bg-accent-glow",
+        ]}>
+          <p class="font-mono text-xs text-text-dim uppercase tracking-widest mb-3">
+            {t.tier}
+          </p>
+          <p class:list={[
+            "font-display font-bold text-2xl mb-0.5",
+            t.highlight ? "text-accent" : "text-text-primary",
+          ]}>
+            {t.price}
+          </p>
+          <p class="font-mono text-xs text-text-dim">{t.period}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="flex items-center justify-center gap-4">
+      <a
+        href="/sentinel#pricing"
+        class="
+          px-6 py-3 bg-accent text-bg-base border border-accent
+          font-mono text-xs uppercase tracking-widest
+          hover:bg-transparent hover:text-accent
+          transition-all duration-150
+        "
+      >
+        See full pricing →
+      </a>
+    </div>
+
+    <p class="font-mono text-xs text-text-dim mt-4">
+      No credit card required for the free tier.
+    </p>
+
+  </div>
+</section>

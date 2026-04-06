@@ -1,0 +1,121 @@
+---
+// WhatWeCheck.astro — full check list in two columns
+import SectionMarker from '../../ui/SectionMarker.astro';
+
+const categories = [
+  {
+    name: 'Email authentication',
+    checks: [
+      { label: 'SPF record presence and syntax',      status: 'pass' },
+      { label: 'SPF enforcement level (-all vs ~all)', status: 'pass' },
+      { label: 'Multiple SPF records detection',       status: 'pass' },
+      { label: 'M365 include verification',            status: 'pass' },
+      { label: 'Brevo / Mailersend include check',     status: 'pass' },
+      { label: 'DKIM selector detection (M365)',       status: 'pass' },
+      { label: 'DKIM selector detection (third-party)',status: 'pass' },
+      { label: 'DMARC policy strength (p=)',           status: 'pass' },
+      { label: 'DMARC duplicate record detection',     status: 'pass' },
+      { label: 'DMARC subdomain policy (sp=)',         status: 'pass' },
+      { label: 'DMARC aggregate reporting (rua=)',     status: 'pass' },
+      { label: 'DMARC coverage (pct=)',                status: 'pass' },
+    ],
+  },
+  {
+    name: 'DNS integrity',
+    checks: [
+      { label: 'MX record presence and resolution',   status: 'pass' },
+      { label: 'MX pointing to correct provider',     status: 'pass' },
+      { label: 'DNS record change detection',         status: 'pass' },
+      { label: 'NS record monitoring',                status: 'pass' },
+      { label: 'MTA-STS policy',                      status: 'soon' },
+      { label: 'TLS-RPT record',                      status: 'soon' },
+      { label: 'BIMI record',                         status: 'soon' },
+    ],
+  },
+  {
+    name: 'SSL / TLS',
+    checks: [
+      { label: 'Certificate validity',                status: 'pass' },
+      { label: 'Expiry warnings (30 days / 7 days)',  status: 'pass' },
+      { label: 'Certificate chain validation',        status: 'pass' },
+      { label: 'TLS version check (1.2+ enforced)',   status: 'pass' },
+      { label: 'Domain expiry monitoring',            status: 'pass' },
+    ],
+  },
+  {
+    name: 'Microsoft 365',
+    checks: [
+      { label: 'DKIM signing enabled for custom domain', status: 'pass' },
+      { label: 'Secure Score tracking',               status: 'pass' },
+      { label: 'Conditional Access gap detection',    status: 'pass' },
+      { label: 'MFA configuration check',             status: 'pass' },
+      { label: 'Outbound sending limit monitoring',   status: 'pass' },
+      { label: 'OAuth app consent audit',             status: 'soon' },
+    ],
+  },
+];
+---
+
+<section class="border-b border-border-base bg-bg-base px-6 py-24">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionMarker label="03 / What We Check" />
+
+    <div class="flex items-end justify-between mb-12">
+      <h2 class="font-display font-bold uppercase text-4xl text-text-primary leading-tight">
+        Every check.<br />
+        <span class="text-accent">No surprises.</span>
+      </h2>
+      <div class="flex items-center gap-6 pb-1">
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-1.5 h-1.5 bg-pass" />
+          <span class="font-mono text-xs text-text-dim uppercase tracking-widest">Available</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-1.5 h-1.5 bg-text-dim" />
+          <span class="font-mono text-xs text-text-dim uppercase tracking-widest">Coming soon</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 border border-border-base">
+      {categories.map((cat, ci) => (
+        <div class:list={[
+          "border-b border-border-base last:border-b-0",
+          ci % 2 === 0 && "md:border-r",
+        ]}>
+          <!-- Category header -->
+          <div class="px-6 py-4 border-b border-border-dim bg-bg-overlay">
+            <span class="font-mono text-xs text-accent uppercase tracking-widest">
+              {cat.name}
+            </span>
+          </div>
+
+          <!-- Check list -->
+          <div class="divide-y divide-border-dim">
+            {cat.checks.map(check => (
+              <div class="flex items-center gap-4 px-6 py-3">
+                <span class:list={[
+                  "inline-block w-1.5 h-1.5 flex-shrink-0",
+                  check.status === 'pass' ? "bg-pass" : "bg-text-dim",
+                ]} />
+                <span class:list={[
+                  "font-mono text-xs leading-relaxed",
+                  check.status === 'pass' ? "text-text-muted" : "text-text-dim",
+                ]}>
+                  {check.label}
+                </span>
+                {check.status === 'soon' && (
+                  <span class="ml-auto font-mono text-[10px] text-text-dim uppercase tracking-wider">
+                    Soon
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

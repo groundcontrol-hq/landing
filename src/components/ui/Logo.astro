@@ -1,0 +1,37 @@
+---
+interface Props {
+  class?: string;
+  size?: number;
+}
+const { class: className, size = 28 } = Astro.props;
+---
+
+<!--
+  Ground Control mark — HUD targeting reticle
+  Corner brackets frame a crosshair with a square center indicator.
+  All sharp corners, no radius, accent color only.
+-->
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 28 28"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  class:list={[className]}
+>
+  <!-- Corner brackets -->
+  <path d="M2 7V2H7"   stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="square"/>
+  <path d="M21 2H26V7" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="square"/>
+  <path d="M2 21V26H7" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="square"/>
+  <path d="M21 26H26V21" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="square"/>
+
+  <!-- Crosshair arms — dim -->
+  <line x1="9"  y1="14" x2="12" y2="14" stroke="var(--color-accent)" stroke-width="1" opacity="0.4"/>
+  <line x1="16" y1="14" x2="19" y2="14" stroke="var(--color-accent)" stroke-width="1" opacity="0.4"/>
+  <line x1="14" y1="9"  x2="14" y2="12" stroke="var(--color-accent)" stroke-width="1" opacity="0.4"/>
+  <line x1="14" y1="16" x2="14" y2="19" stroke="var(--color-accent)" stroke-width="1" opacity="0.4"/>
+
+  <!-- Center square indicator -->
+  <rect x="12.5" y="12.5" width="3" height="3" fill="var(--color-accent)"/>
+</svg>

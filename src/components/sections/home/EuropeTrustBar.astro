@@ -1,0 +1,67 @@
+---
+// EuropeTrustBar.astro — EU data residency and compliance facts
+const facts = [
+  {
+    label: 'EU data residency',
+    value: 'Frankfurt, Germany',
+    detail: 'Your data never leaves Europe. No exceptions.',
+  },
+  {
+    label: 'NIS2 Article 21',
+    value: 'Compliance reporting',
+    detail: 'Export audit-ready reports for regulators and customers.',
+  },
+  {
+    label: 'GDPR compliant',
+    value: 'By design',
+    detail: 'Data processing agreements available in English and Italian.',
+  },
+  {
+    label: 'Founded',
+    value: 'Italy',
+    detail: 'We operate under EU law. We understand ACN guidelines.',
+  },
+];
+---
+
+<section class="border-b border-border-base bg-bg-overlay noise px-6 py-16">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Header row -->
+    <div class="flex items-center justify-between mb-8">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-px bg-accent" />
+        <span class="font-mono text-xs text-accent uppercase tracking-widest">
+          Built for Europe
+        </span>
+      </div>
+      <!-- EU flag represented as a simple geometric mark -->
+      <div class="flex items-center gap-1.5 opacity-40" aria-label="European Union">
+        {Array.from({ length: 5 }).map(() => (
+          <span class="inline-block w-1 h-1 bg-text-muted" />
+        ))}
+      </div>
+    </div>
+
+    <!-- Facts grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-0 border border-border-base">
+      {facts.map((fact, i) => (
+        <div class:list={[
+          "px-6 py-8",
+          i < facts.length - 1 && "border-b md:border-b-0 md:border-r border-border-base",
+        ]}>
+          <p class="font-mono text-xs text-text-dim uppercase tracking-widest mb-2">
+            {fact.label}
+          </p>
+          <p class="font-display font-semibold text-lg text-text-primary mb-3">
+            {fact.value}
+          </p>
+          <p class="font-body text-xs text-text-muted leading-relaxed">
+            {fact.detail}
+          </p>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

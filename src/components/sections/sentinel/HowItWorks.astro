@@ -1,0 +1,76 @@
+---
+// HowItWorks.astro — three steps, no jargon
+import SectionMarker from '../../ui/SectionMarker.astro';
+
+const steps = [
+  {
+    step:   '01',
+    title:  'Add your domain',
+    body:   'Enter yourcompany.com. No DNS changes required. No installation. No agents to deploy on your servers. Sentinel reads your public DNS records — that\'s it.',
+    time:   '60 seconds to add',
+  },
+  {
+    step:   '02',
+    title:  'We scan continuously',
+    body:   'SPF, DKIM, DMARC, SSL certificates, MX records, MTA-STS, and Microsoft 365 configuration — checked every 6 hours from multiple locations. Results stored with full history.',
+    time:   'Every 6 hours, automatically',
+  },
+  {
+    step:   '03',
+    title:  'Get alerted before problems become incidents',
+    body:   'Email, Slack, webhook, or Microsoft Teams when anything changes or degrades. SSL expiry warnings at 30 days and 7 days. DMARC failures within the hour they happen.',
+    time:   'Alert within minutes of detection',
+  },
+];
+---
+
+<section class="border-b border-border-base bg-bg-raised px-6 py-24">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionMarker label="02 / How It Works" />
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base">
+      {steps.map((s, i) => (
+        <div class:list={[
+          "relative px-8 py-10 flex flex-col gap-6",
+          i < steps.length - 1 && "border-b md:border-b-0 md:border-r border-border-base",
+        ]}>
+
+          <!-- Step connector line (desktop only) -->
+          {i < steps.length - 1 && (
+            <div
+              class="absolute top-14 -right-px w-px h-0 md:h-8 bg-accent opacity-40 hidden md:block"
+              aria-hidden="true"
+            />
+          )}
+
+          <!-- Step number -->
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 border border-accent flex items-center justify-center flex-shrink-0">
+              <span class="font-mono text-xs text-accent">{s.step}</span>
+            </div>
+            <div class="flex-1 h-px bg-border-dim" />
+          </div>
+
+          <!-- Content -->
+          <div class="flex-1">
+            <h3 class="font-display font-semibold text-xl text-text-primary uppercase mb-4">
+              {s.title}
+            </h3>
+            <p class="font-body text-sm text-text-muted leading-relaxed">
+              {s.body}
+            </p>
+          </div>
+
+          <!-- Time indicator -->
+          <div class="flex items-center gap-2 pt-4 border-t border-border-dim">
+            <span class="inline-block w-1 h-1 bg-accent" />
+            <span class="font-mono text-xs text-text-dim">{s.time}</span>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
