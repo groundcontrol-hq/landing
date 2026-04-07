@@ -1,0 +1,99 @@
+---
+// UseCaseLinks.astro — links to /sentinel/* use case pages
+import { SectionMarker } from '@/components/ui/SectionMarker';
+import { StatusDot } from '@/components/ui/StatusDot';
+
+const useCases = [
+  {
+    label:       'DNS & Email Security',
+    path:        '/sentinel/email',
+    description: 'For IT teams who manage their own domain and want to know if email spoofing is possible — and whether Microsoft 365 is correctly configured.',
+    cta:         'Check your email setup →',
+    available:   true,
+  },
+  {
+    label:       'Web & TLS Security',
+    path:        '/sentinel/web',
+    description: 'For teams who run a public website and want to know what security headers are missing and when their certificate expires.',
+    cta:         'Check your website →',
+    available:   true,
+  },
+  {
+    label:       'Microsoft 365 Configuration',
+    path:        '/sentinel/m365',
+    description: 'For M365 tenants who want a baseline check of their security configuration — Conditional Access, MFA gaps, DKIM, and Secure Score.',
+    cta:         'Join the waitlist →',
+    available:   false,
+  },
+] as const;
+---
+
+<section class="border-b border-border-base bg-bg-raised px-6 py-24">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionMarker label="Use Cases" />
+
+    <div class="flex items-end justify-between mb-12">
+      <h2 class="font-display font-bold uppercase text-4xl text-text-primary leading-tight">
+        Go deeper on<br />
+        <span class="text-accent">what matters most.</span>
+      </h2>
+      <p class="font-mono text-xs text-text-dim pb-1 max-w-xs text-right leading-relaxed">
+        Each attack surface has its own checks.<br />
+        Start with the one most relevant to you.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base">
+      {useCases.map((uc, i) => (
+        <div class:list={[
+          "flex flex-col",
+          i < useCases.length - 1 && "border-b md:border-b-0 md:border-r border-border-base",
+        ]}>
+
+          <!-- Header -->
+          <div class="px-7 pt-7 pb-5 border-b border-border-dim flex items-center justify-between gap-4">
+            <span class="font-mono text-xs text-text-dim uppercase tracking-widest">
+              {uc.label}
+            </span>
+            {uc.available ? (
+              <div class="flex items-center gap-1.5 shrink-0">
+                <StatusDot color="pass" size="xs" />
+                <span class="font-mono text-[10px] text-pass uppercase tracking-widest">Live</span>
+              </div>
+            ) : (
+              <div class="flex items-center gap-1.5 shrink-0">
+                <StatusDot color="muted" size="xs" />
+                <span class="font-mono text-[10px] text-text-dim uppercase tracking-widest">Soon</span>
+              </div>
+            )}
+          </div>
+
+          <!-- Description -->
+          <div class="px-7 py-6 flex-1">
+            <p class="font-body text-sm text-text-muted leading-relaxed">
+              {uc.description}
+            </p>
+          </div>
+
+          <!-- CTA -->
+          <div class="px-7 pb-7">
+            <a
+              href={uc.path}
+              class:list={[
+                "inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest transition-colors",
+                uc.available
+                  ? "text-accent hover:text-text-primary"
+                  : "text-text-dim hover:text-text-muted",
+              ]}
+            >
+              {uc.cta}
+            </a>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
