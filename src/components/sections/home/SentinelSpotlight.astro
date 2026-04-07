@@ -43,7 +43,7 @@ const dotClass = {
 } as const;
 ---
 
-<section class="border-b border-border-base bg-bg-base px-6 py-24">
+<section class="border-b border-border-base bg-bg-base px-6 py-32">
   <div class="max-w-7xl mx-auto">
     <SectionMarker label="03 / Product Suite" />
 
@@ -142,30 +142,16 @@ const dotClass = {
           authentication, and certificates — continuously, not on demand.
         </p>
 
-        <div class="space-y-4 mb-10">
+        <div class="space-y-5 mb-10">
           {
             [
-              {
-                label: "Checks run every 6 hours",
-                detail: "SPF, DKIM, DMARC, SSL, MX, M365 configuration — from the attacker's perspective.",
-              },
-              {
-                label: "Alert before it becomes an incident",
-                detail: "Email, Slack, webhook, or Microsoft Teams when anything changes or degrades.",
-              },
-              {
-                label: "NIS2 compliance report on demand",
-                detail: "Export a PDF mapped to Article 21. Share with customers or auditors.",
-              },
-            ].map((item) => (
-              <div class="flex gap-4 items-start">
-                <StatusDot color="accent" size="xs" className="mt-2" />
-                <div>
-                  <p class="font-mono text-sm text-text-primary mb-0.5">
-                    {item.label}
-                  </p>
-                  <p class="font-body text-xs text-text-muted">{item.detail}</p>
-                </div>
+              "Checks run every 6 hours",
+              "Alert before it becomes an incident",
+              "NIS2 compliance report on demand",
+            ].map((label) => (
+              <div class="flex gap-4 items-center">
+                <StatusDot color="accent" size="xs" />
+                <p class="font-mono text-sm text-text-primary">{label}</p>
               </div>
             ))
           }

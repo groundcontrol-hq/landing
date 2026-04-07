@@ -1,0 +1,28 @@
+---
+// SectionDivider.astro — HUD-style chapter break between major sections
+interface Props {
+  sector: string;   // e.g. "02 / PRODUCTS"
+  coord?: string;   // e.g. "N 45°28′ / E 09°11′"
+  bg?: string;      // tailwind bg class to match parent section below
+}
+
+const {
+  sector,
+  coord = '',
+  bg = 'bg-bg-base',
+} = Astro.props;
+---
+
+<div class:list={["w-full border-y border-border-base", bg]}>
+  <div class="max-w-7xl mx-auto px-6 py-2 flex items-center justify-between">
+    <span class="font-mono text-[10px] text-text-dim uppercase tracking-widest">
+      {sector}
+    </span>
+    {coord && (
+      <span class="font-mono text-[10px] text-text-dim hidden sm:block">
+        {coord}
+      </span>
+    )}
+    <span class="font-mono text-[10px] text-text-dim uppercase tracking-widest">GC-HOME</span>
+  </div>
+</div>
