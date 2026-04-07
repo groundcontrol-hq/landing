@@ -45,7 +45,7 @@ const dotClass = {
 
 <section class="border-b border-border-base bg-bg-base px-6 py-24">
   <div class="max-w-7xl mx-auto">
-    <SectionMarker label="03 / Sentinel" />
+    <SectionMarker label="03 / Product Suite" />
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <!-- Left: mock dashboard -->
@@ -133,14 +133,13 @@ const dotClass = {
         <h2
           class="font-display font-bold uppercase text-4xl text-text-primary leading-tight mb-6"
         >
-          Know your security posture<br />
-          <span class="text-accent">before attackers do.</span>
+          Security is one layer.<br />
+          <span class="text-accent">Ground Control covers all three.</span>
         </h2>
 
         <p class="font-body text-base text-text-muted leading-relaxed mb-8">
-          Sentinel runs the same DNS and email authentication checks that
-          security experts do manually — every 6 hours, automatically, for every
-          domain you add.
+          Sentinel is the security module. It monitors your DNS, email
+          authentication, and certificates — continuously, not on demand.
         </p>
 
         <div class="space-y-4 mb-10">
@@ -148,15 +147,15 @@ const dotClass = {
             [
               {
                 label: "Checks run every 6 hours",
-                detail: "SPF, DKIM, DMARC, SSL, MX, M365 configuration",
+                detail: "SPF, DKIM, DMARC, SSL, MX, M365 configuration — from the attacker's perspective.",
               },
               {
                 label: "Alert before it becomes an incident",
-                detail: "Email, Slack, webhook, or Microsoft Teams",
+                detail: "Email, Slack, webhook, or Microsoft Teams when anything changes or degrades.",
               },
               {
                 label: "NIS2 compliance report on demand",
-                detail: "Export a PDF mapped to Article 21 requirements",
+                detail: "Export a PDF mapped to Article 21. Share with customers or auditors.",
               },
             ].map((item) => (
               <div class="flex gap-4 items-start">
@@ -172,14 +171,25 @@ const dotClass = {
           }
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-4 mb-8">
           <Button href="/sentinel">Try Sentinel free →</Button>
           <a
-            href="/sentinel#pricing"
+            href="#products"
             class="font-mono text-xs text-text-dim hover:text-text-muted transition-colors duration-150 uppercase tracking-widest"
           >
-            See pricing
+            See all modules →
           </a>
+        </div>
+
+        <!-- Also in Ground Control -->
+        <div class="border-t border-border-dim pt-6">
+          <p class="font-mono text-xs text-text-dim leading-relaxed">
+            Sentinel is one module.{" "}
+            <a href="#products" class="text-text-muted hover:text-accent transition-colors">Desk</a>
+            {" "}handles IT service management.{" "}
+            <a href="#products" class="text-text-muted hover:text-accent transition-colors">Launch</a>
+            {" "}handles cloud deployment.
+          </p>
         </div>
       </div>
     </div>
