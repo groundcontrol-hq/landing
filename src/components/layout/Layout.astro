@@ -1,24 +1,22 @@
 ---
 // Layout.astro — base layout for all pages
-import Nav    from './Nav.astro';
-import Footer from './Footer.astro';
+import Nav from "./Nav.astro";
+import Footer from "./Footer.astro";
+import "@/styles/global.css";
 
 interface Props {
-  title:       string;
+  title: string;
   description: string;
-  canonical?:  string;
+  canonical?: string;
 }
 
-const {
-  title,
-  description,
-  canonical = Astro.url.href,
-} = Astro.props;
+const { title, description, canonical = Astro.url.href } = Astro.props;
 
-const siteName = 'Ground Control';
+const siteName = "Ground Control";
 const fullTitle = `${title} — ${siteName}`;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
@@ -27,11 +25,11 @@ const fullTitle = `${title} — ${siteName}`;
     <link rel="canonical" href={canonical} />
 
     <!-- Open Graph -->
-    <meta property="og:title"       content={fullTitle} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:url"         content={canonical} />
-    <meta property="og:site_name"   content={siteName} />
-    <meta property="og:type"        content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content="website" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -41,21 +39,16 @@ const fullTitle = `${title} — ${siteName}`;
       rel="stylesheet"
     />
 
-    <!-- Global styles -->
-    <link rel="stylesheet" href="/src/styles/global.css" />
-
     <title>{fullTitle}</title>
   </head>
   <body class="bg-bg-base text-text-primary font-body min-h-screen">
-
     <!-- Scan line — hero aesthetic, subtle -->
-    <div class="scanline" aria-hidden="true" />
+    <div class="scanline" aria-hidden="true"></div>
 
     <Nav />
     <main class="pt-14">
       <slot />
     </main>
     <Footer />
-
   </body>
 </html>
