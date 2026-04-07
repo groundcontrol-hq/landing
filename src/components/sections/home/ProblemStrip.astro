@@ -5,24 +5,24 @@ import { SectionMarker } from '@/components/ui/SectionMarker';
 const problems = [
   {
     number: '01',
-    headline: 'Your domain is being spoofed right now.',
-    body: 'Attackers send thousands of emails pretending to be you. No login required. No access to your servers. Just a missing DMARC record.',
+    headline: 'Your domain is being spoofed right now. You don\'t know it.',
+    body: 'A missing or weak DMARC record means anyone can send email from your domain. No login required. No access to your servers. Just a free cloud account and a list of targets.',
     stat: '10,000',
     statLabel: 'spoofed emails sent from one domain in a single attack',
   },
   {
     number: '02',
-    headline: 'IT tickets live in email threads and spreadsheets.',
-    body: 'ServiceNow costs a fortune and takes months to configure. Linear doesn\'t have ITSM features. Your team spends more time finding tickets than fixing them.',
+    headline: 'Your IT requests live in Slack threads. Nobody owns them.',
+    body: 'When someone\'s laptop breaks or an account needs provisioning, they message the IT person directly. There\'s no ticket. No SLA. No record of what was done or when.',
     stat: '4.5h',
-    statLabel: 'average time lost per week per person to ticket chaos',
+    statLabel: 'lost per person per week to untracked IT requests',
   },
   {
     number: '03',
-    headline: 'Cloud deployment takes two weeks per environment.',
-    body: 'Cloud Run is excellent. Wiring preview environments per PR, secrets management, and bucket provisioning is not. Your developers are doing DevOps instead of shipping.',
-    stat: '3 days',
-    statLabel: 'to spin up a new Cloud Run preview environment from scratch',
+    headline: 'When someone leaves, their access doesn\'t.',
+    body: 'Offboarding is a checklist in Notion. Half the steps are outdated. The SaaS tools nobody remembers authorizing stay connected for months. You find out when the invoice arrives or the audit happens.',
+    stat: '63%',
+    statLabel: 'of companies find orphaned access during security audits',
   },
 ];
 ---
