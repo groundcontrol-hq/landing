@@ -1,0 +1,48 @@
+---
+import Layout           from '../../components/layout/Layout.astro';
+import HeroSentinel     from '../../components/sections/sentinel/HeroSentinel.astro';
+import ProblemScenarios from '../../components/sections/sentinel/ProblemScenarios.astro';
+import HowItWorks       from '../../components/sections/sentinel/HowItWorks.astro';
+import WhatWeCheck      from '../../components/sections/sentinel/WhatWeCheck.astro';
+import Nis2Section      from '../../components/sections/sentinel/Nis2Section.astro';
+import Faq              from '../../components/sections/sentinel/Faq.astro';
+import { Button }       from '../../components/ui/Button';
+import { StatusDot }    from '../../components/ui/StatusDot';
+---
+
+<Layout
+  title="DNS & Email Security — Sentinel by Ground Control"
+  description="Check your domain's DMARC, SPF, DKIM, and SSL configuration. Sentinel monitors email authentication and DNS integrity continuously, so spoofing and misconfigurations don't catch you by surprise."
+  canonical="https://groundcontrol.land/sentinel/email"
+>
+  <HeroSentinel
+    breadcrumbSuffix="Email Security"
+  />
+  <ProblemScenarios />
+  <HowItWorks />
+  <WhatWeCheck />
+  <Nis2Section />
+
+  <!-- CTA to full pricing — no pricing table on use case pages -->
+  <section class="border-b border-border-base bg-bg-base px-6 py-16">
+    <div class="max-w-3xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div>
+        <p class="font-mono text-xs text-text-dim uppercase tracking-widest mb-2">Ready to monitor continuously?</p>
+        <p class="font-body text-base text-text-muted max-w-sm">
+          Free for 3 domains. Checks run every 6 hours. No credit card required.
+        </p>
+      </div>
+      <div class="flex flex-col items-start md:items-end gap-3 shrink-0">
+        <Button href="/sentinel#pricing" variant="primary">
+          See all plans →
+        </Button>
+        <div class="flex items-center gap-2">
+          <StatusDot color="muted" size="xs" client:load />
+          <span class="font-mono text-xs text-text-dim">EU data residency · Frankfurt, Germany</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Faq />
+</Layout>

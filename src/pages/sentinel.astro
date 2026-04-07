@@ -1,25 +1,31 @@
 ---
-import Layout           from '../components/layout/Layout.astro';
-import HeroSentinel     from '../components/sections/sentinel/HeroSentinel.astro';
-import ProblemScenarios from '../components/sections/sentinel/ProblemScenarios.astro';
-import HowItWorks       from '../components/sections/sentinel/HowItWorks.astro';
-import WhatWeCheck      from '../components/sections/sentinel/WhatWeCheck.astro';
-import Nis2Section      from '../components/sections/sentinel/Nis2Section.astro';
-import Pricing          from '../components/sections/sentinel/Pricing.astro';
-import Faq              from '../components/sections/sentinel/Faq.astro';
-import CtaFinal         from '../components/sections/sentinel/CtaFinal.astro';
+import Layout               from '../components/layout/Layout.astro';
+import HeroSentinel         from '../components/sections/sentinel/HeroSentinel.astro';
+import AttackSurfaceLayers  from '../components/sections/sentinel/AttackSurfaceLayers.astro';
+import HowItWorks           from '../components/sections/sentinel/HowItWorks.astro';
+import UseCaseLinks         from '../components/sections/sentinel/UseCaseLinks.astro';
+import Nis2Section          from '../components/sections/sentinel/Nis2Section.astro';
+import Roadmap              from '../components/sections/sentinel/Roadmap.astro';
+import Pricing              from '../components/sections/sentinel/Pricing.astro';
+import Faq                  from '../components/sections/sentinel/Faq.astro';
+import CtaFinal             from '../components/sections/sentinel/CtaFinal.astro';
 ---
 
 <Layout
-  title="Sentinel — Domain Security Monitoring"
-  description="Sentinel monitors your domain's email authentication, DNS configuration, and SSL certificates — continuously, automatically, and for free. NIS2-ready."
+  title="Sentinel — Attack Surface Monitoring"
+  description="Sentinel continuously monitors your DNS, email authentication, web security headers, TLS configuration, and Microsoft 365 setup — from the attacker's perspective. Free to start."
   canonical="https://groundcontrol.land/sentinel"
 >
-  <HeroSentinel />
-  <ProblemScenarios />
+  <HeroSentinel
+    headline="How much of your attack surface<br /><span class='text-accent'>can attackers see?</span>"
+    subheadline="Sentinel scans your DNS, web headers, TLS configuration, and Microsoft 365 setup — continuously, from the attacker's perspective."
+    statusLine="Attack surface scan — checks running every 6 hours"
+  />
+  <AttackSurfaceLayers />
   <HowItWorks />
-  <WhatWeCheck />
+  <UseCaseLinks />
   <Nis2Section />
+  <Roadmap />
   <Pricing />
   <Faq />
   <CtaFinal />

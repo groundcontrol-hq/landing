@@ -1,5 +1,21 @@
 ---
 import DomainChecker from "@/components/ui/DomainChecker";
+
+interface Props {
+  breadcrumbSuffix?: string;
+  breadcrumbSuffixHref?: string;
+  headline?: string;
+  subheadline?: string;
+  statusLine?: string;
+}
+
+const {
+  breadcrumbSuffix,
+  breadcrumbSuffixHref,
+  headline,
+  subheadline,
+  statusLine = "Monitoring active — checks running every 6 hours",
+} = Astro.props;
 ---
 
 <section
@@ -26,39 +42,64 @@ import DomainChecker from "@/components/ui/DomainChecker";
         Ground Control
       </a>
       <span class="text-text-dim font-mono text-xs">/</span>
-      <span class="font-mono text-xs text-accent uppercase tracking-widest"
-        >Sentinel</span
-      >
+      {breadcrumbSuffix ? (
+        <>
+          <a
+            href="/sentinel"
+            class="font-mono text-xs text-text-dim uppercase tracking-widest hover:text-text-muted transition-colors"
+          >
+            Sentinel
+          </a>
+          <span class="text-text-dim font-mono text-xs">/</span>
+          <span class="font-mono text-xs text-accent uppercase tracking-widest">
+            {breadcrumbSuffix}
+          </span>
+        </>
+      ) : (
+        <span class="font-mono text-xs text-accent uppercase tracking-widest">
+          Sentinel
+        </span>
+      )}
     </div>
 
     <!-- Status line -->
     <div class="flex items-center gap-2 mb-8">
       <span class="inline-block w-1.5 h-1.5 bg-pass blink"></span>
       <span class="font-mono text-xs text-text-muted uppercase tracking-widest">
-        Monitoring active — checks running every 6 hours
+        {statusLine}
       </span>
     </div>
 
     <!-- Main headline -->
-    <h1
-      class="font-display font-bold uppercase
-      text-4xl md:text-6xl lg:text-7xl
-      text-text-primary
-      leading-[1.05] tracking-tight
-      mb-8 max-w-4xl"
-    >
-      Is someone<br />
-      sending emails<br />
-      <span class="text-accent">pretending to be you?</span>
-    </h1>
+    {headline ? (
+      <h1
+        class="font-display font-bold uppercase
+        text-4xl md:text-6xl lg:text-7xl
+        text-text-primary
+        leading-[1.05] tracking-tight
+        mb-8 max-w-4xl"
+        set:html={headline}
+      />
+    ) : (
+      <h1
+        class="font-display font-bold uppercase
+        text-4xl md:text-6xl lg:text-7xl
+        text-text-primary
+        leading-[1.05] tracking-tight
+        mb-8 max-w-4xl"
+      >
+        Is someone<br />
+        sending emails<br />
+        <span class="text-accent">pretending to be you?</span>
+      </h1>
+    )}
 
     <!-- Subheadline -->
     <p
       class="font-body text-base md:text-lg text-text-muted
       max-w-2xl leading-relaxed mb-12"
     >
-      Sentinel monitors your domain's email authentication, DNS configuration,
-      and SSL certificates — continuously, automatically, and for free.
+      {subheadline ?? "Sentinel monitors your domain's email authentication, DNS configuration, and SSL certificates — continuously, automatically, and for free."}
     </p>
 
     <DomainChecker client:load />

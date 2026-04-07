@@ -1,0 +1,117 @@
+---
+// AttackSurfaceLayers.astro — three attack surface panels with checks
+import { SectionMarker } from '@/components/ui/SectionMarker';
+import { StatusDot } from '@/components/ui/StatusDot';
+
+const layers = [
+  {
+    label:       'DNS & Email',
+    title:       'Email spoofing starts with one missing record.',
+    body:        'DMARC, SPF, and DKIM are public. Attackers check them before you do. A policy set to p=none means anyone can send from your domain.',
+    checks: [
+      'DMARC policy enforcement (p=reject / p=quarantine)',
+      'SPF hard fail and include chain integrity',
+      'DKIM selector presence and M365 alignment',
+    ],
+    href:        '/sentinel/email',
+    linkLabel:   'DNS & Email deep scan →',
+  },
+  {
+    label:       'Web & TLS',
+    title:       'Your website answers questions you didn\'t mean to answer.',
+    body:        'Missing security headers tell attackers what protections are absent. An expired or misconfigured certificate tells customers to leave.',
+    checks: [
+      'HTTP security headers (CSP, HSTS, X-Frame-Options)',
+      'TLS version enforcement (1.2+ required)',
+      'Certificate expiry — alerts at 30 days and 7 days',
+    ],
+    href:        '/sentinel/web',
+    linkLabel:   'Web & TLS deep scan →',
+  },
+  {
+    label:       'Cloud & SaaS',
+    title:       'Microsoft 365 ships with defaults that benefit attackers.',
+    body:        'DKIM signing is off for custom domains. Legacy authentication stays enabled. MFA isn\'t enforced. These aren\'t edge cases — they\'re defaults.',
+    checks: [
+      'DKIM signing enabled for custom domain',
+      'Conditional Access policy gaps',
+      'MFA enforcement and legacy auth detection',
+    ],
+    href:        '/sentinel/m365',
+    linkLabel:   'M365 configuration check →',
+    comingSoon:  true,
+  },
+] as const;
+---
+
+<section class="border-b border-border-base bg-bg-base px-6 py-24">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionMarker label="01 / Attack Surface" />
+
+    <h2 class="font-display font-bold uppercase text-4xl text-text-primary leading-tight mb-4 max-w-2xl">
+      Attackers don't need your password.<br />
+      <span class="text-accent">They need your misconfiguration.</span>
+    </h2>
+    <p class="font-body text-base text-text-muted max-w-2xl mb-16">
+      Sentinel maps three attack surface layers. Each check runs from the public internet — exactly how an attacker would look at your infrastructure.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base">
+      {layers.map((layer, i) => (
+        <div class:list={[
+          "flex flex-col",
+          i < layers.length - 1 && "border-b md:border-b-0 md:border-r border-border-base",
+        ]}>
+
+          <!-- Layer header -->
+          <div class="px-7 pt-8 pb-6 border-b border-border-dim">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="font-mono text-xs text-accent uppercase tracking-widest">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div class="flex-1 h-px bg-border-dim" />
+              {layer.comingSoon && (
+                <span class="font-mono text-[10px] text-text-dim uppercase tracking-wider border border-border-base px-2 py-0.5">
+                  Partial
+                </span>
+              )}
+            </div>
+            <p class="font-mono text-xs text-text-dim uppercase tracking-widest mb-3">{layer.label}</p>
+            <h3 class="font-display font-semibold text-lg text-text-primary uppercase leading-snug">
+              {layer.title}
+            </h3>
+          </div>
+
+          <!-- Body + checks -->
+          <div class="px-7 py-6 flex-1 flex flex-col gap-6">
+            <p class="font-body text-sm text-text-muted leading-relaxed">
+              {layer.body}
+            </p>
+
+            <div class="space-y-2">
+              {layer.checks.map(check => (
+                <div class="flex items-start gap-3">
+                  <StatusDot color="pass" size="xs" className="mt-1 shrink-0" />
+                  <span class="font-mono text-xs text-text-muted leading-relaxed">{check}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Link to use case page -->
+          <div class="px-7 pb-7 mt-auto">
+            <a
+              href={layer.href}
+              class="inline-flex items-center gap-2 font-mono text-xs text-accent uppercase tracking-widest hover:text-text-primary transition-colors"
+            >
+              {layer.linkLabel}
+            </a>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>
