@@ -1,0 +1,224 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" fill="none">
+  <defs>
+    <!-- Background panel gradient -->
+    <linearGradient id="d-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0D1117"/>
+      <stop offset="100%" stop-color="#080B0F"/>
+    </linearGradient>
+
+    <!-- Routing line gradient — accent trace -->
+    <linearGradient id="d-route" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4A8FBF" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#4A8FBF" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- SLA bar — warning fill -->
+    <linearGradient id="d-sla-warn" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#D68910" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#D68910" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- SLA bar — pass fill -->
+    <linearGradient id="d-sla-ok" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E8449" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#1E8449" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <!-- Critical row subtle tint -->
+    <linearGradient id="d-row-crit" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#C0392B" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#C0392B" stop-opacity="0"/>
+    </linearGradient>
+
+    <clipPath id="d-clip">
+      <rect x="4" y="4" width="112" height="112"/>
+    </clipPath>
+  </defs>
+
+  <!-- ── Outer frame ─────────────────────────────────────────── -->
+  <rect x="4" y="4" width="112" height="112" fill="url(#d-bg)" stroke="#243040" stroke-width="1"/>
+
+  <!-- Corner cut mark — top right (accent) -->
+  <polyline points="96,4 112,4 112,20" stroke="#4A8FBF" stroke-width="1" opacity="0.6"/>
+  <!-- Corner mark — bottom left (dim) -->
+  <polyline points="24,116 4,116 4,100" stroke="#243040" stroke-width="1" opacity="0.5"/>
+
+  <g clip-path="url(#d-clip)">
+
+    <!-- ── Header bar ─────────────────────────────────────────── -->
+    <rect x="4" y="4" width="112" height="14" fill="#0D1117"/>
+    <line x1="4" y1="18" x2="116" y2="18" stroke="#243040" stroke-width="0.75"/>
+    <!-- Status dot — warning (1 SLA breach) -->
+    <rect x="10" y="9" width="4" height="4" fill="#D68910"/>
+    <!-- Header labels -->
+    <rect x="18" y="10" width="18" height="2" fill="#5A7184" opacity="0.6"/>
+    <rect x="40" y="10" width="10" height="2" fill="#3A4F61" opacity="0.5"/>
+    <!-- Right label -->
+    <rect x="86" y="10" width="24" height="2" fill="#3A4F61" opacity="0.4"/>
+
+    <!-- ── Column headers row ─────────────────────────────────── -->
+    <rect x="4" y="18" width="112" height="10" fill="#131920"/>
+    <line x1="4" y1="28" x2="116" y2="28" stroke="#1A2230" stroke-width="0.75"/>
+
+    <!-- Column header text blocks -->
+    <rect x="10" y="21.5" width="10" height="1.5" fill="#4A8FBF" opacity="0.55"/>
+    <rect x="36" y="21.5" width="20" height="1.5" fill="#3A4F61" opacity="0.4"/>
+    <rect x="68" y="21.5" width="12" height="1.5" fill="#3A4F61" opacity="0.4"/>
+    <rect x="90" y="21.5" width="16" height="1.5" fill="#3A4F61" opacity="0.4"/>
+
+    <!-- Column separators — full height -->
+    <line x1="32"  y1="18" x2="32"  y2="80" stroke="#1A2230" stroke-width="0.5"/>
+    <line x1="64"  y1="18" x2="64"  y2="80" stroke="#1A2230" stroke-width="0.5"/>
+    <line x1="86"  y1="18" x2="86"  y2="80" stroke="#1A2230" stroke-width="0.5"/>
+
+    <!-- ══════════════════════════════════════════════════════════
+         TICKET ROWS
+         Columns: [PRIORITY+ID | SUMMARY | CATEGORY | SLA]
+         ══════════════════════════════════════════════════════════ -->
+
+    <!-- ── Row 1 — CRITICAL, open, overdue ───────────────────── -->
+    <rect x="4" y="28" width="112" height="13" fill="url(#d-row-crit)"/>
+    <line x1="4" y1="41" x2="116" y2="41" stroke="#1A2230" stroke-width="0.5"/>
+
+    <!-- Priority indicator — critical square -->
+    <rect x="10" y="33" width="4" height="4" fill="#C0392B"/>
+    <!-- Ticket ID -->
+    <rect x="17" y="33.5" width="10" height="1.5" fill="#5A7184" opacity="0.5"/>
+
+    <!-- Summary line 1 + 2 -->
+    <rect x="36" y="30" width="22" height="2" fill="#E8EDF2" opacity="0.55"/>
+    <rect x="36" y="34.5" width="15" height="1.5" fill="#5A7184" opacity="0.32"/>
+
+    <!-- Category badge -->
+    <rect x="67" y="31" width="14" height="6" fill="none" stroke="#C0392B" stroke-width="0.75" opacity="0.7"/>
+    <rect x="68" y="32.5" width="10" height="2" fill="#C0392B" opacity="0.35"/>
+
+    <!-- SLA bar — overdue/full critical -->
+    <rect x="89" y="31" width="22" height="6" fill="none" stroke="#C0392B" stroke-width="0.5" opacity="0.6"/>
+    <rect x="89" y="31" width="22" height="6" fill="#C0392B" opacity="0.2"/>
+    <!-- OVER marker line -->
+    <line x1="111" y1="31" x2="111" y2="37" stroke="#C0392B" stroke-width="1" opacity="0.7"/>
+
+    <!-- ── Row 2 — WARNING, in-progress ──────────────────────── -->
+    <line x1="4" y1="54" x2="116" y2="54" stroke="#1A2230" stroke-width="0.5"/>
+    <rect x="10" y="46" width="4" height="4" fill="#D68910"/>
+    <rect x="17" y="46.5" width="10" height="1.5" fill="#5A7184" opacity="0.5"/>
+
+    <rect x="36" y="43" width="24" height="2" fill="#E8EDF2" opacity="0.45"/>
+    <rect x="36" y="47.5" width="18" height="1.5" fill="#5A7184" opacity="0.28"/>
+
+    <rect x="67" y="44" width="14" height="6" fill="none" stroke="#D68910" stroke-width="0.75" opacity="0.6"/>
+    <rect x="68" y="45.5" width="10" height="2" fill="#D68910" opacity="0.3"/>
+
+    <!-- SLA bar — warning, ~65% consumed -->
+    <rect x="89" y="44" width="22" height="6" fill="none" stroke="#243040" stroke-width="0.5"/>
+    <rect x="89" y="44" width="14" height="6" fill="url(#d-sla-warn)"/>
+
+    <!-- ── Row 3 — PASS, resolved ─────────────────────────────── -->
+    <line x1="4" y1="67" x2="116" y2="67" stroke="#1A2230" stroke-width="0.5"/>
+    <rect x="10" y="59" width="4" height="4" fill="#1E8449"/>
+    <rect x="17" y="59.5" width="10" height="1.5" fill="#5A7184" opacity="0.45"/>
+
+    <rect x="36" y="56" width="18" height="2" fill="#E8EDF2" opacity="0.35"/>
+    <rect x="36" y="60.5" width="12" height="1.5" fill="#5A7184" opacity="0.22"/>
+
+    <rect x="67" y="57" width="14" height="6" fill="none" stroke="#1E8449" stroke-width="0.75" opacity="0.5"/>
+    <rect x="68" y="58.5" width="10" height="2" fill="#1E8449" opacity="0.25"/>
+
+    <!-- SLA bar — resolved, full green -->
+    <rect x="89" y="57" width="22" height="6" fill="none" stroke="#243040" stroke-width="0.5"/>
+    <rect x="89" y="57" width="22" height="6" fill="url(#d-sla-ok)"/>
+
+    <!-- ── Row 4 — INFO ────────────────────────────────────────── -->
+    <line x1="4" y1="80" x2="116" y2="80" stroke="#243040" stroke-width="0.75"/>
+    <rect x="10" y="72" width="4" height="4" fill="#2471A3"/>
+    <rect x="17" y="72.5" width="10" height="1.5" fill="#5A7184" opacity="0.4"/>
+
+    <rect x="36" y="69" width="26" height="2" fill="#E8EDF2" opacity="0.28"/>
+    <rect x="36" y="73.5" width="20" height="1.5" fill="#5A7184" opacity="0.2"/>
+
+    <rect x="67" y="70" width="14" height="6" fill="none" stroke="#2471A3" stroke-width="0.75" opacity="0.45"/>
+    <rect x="68" y="71.5" width="10" height="2" fill="#2471A3" opacity="0.25"/>
+
+    <!-- SLA bar — info, partial -->
+    <rect x="89" y="70" width="22" height="6" fill="none" stroke="#243040" stroke-width="0.5"/>
+    <rect x="89" y="70" width="9" height="6" fill="#2471A3" opacity="0.18"/>
+
+    <!-- ══════════════════════════════════════════════════════════
+         AI ROUTING CONSOLE — bottom panel
+         ══════════════════════════════════════════════════════════ -->
+    <rect x="4" y="80" width="112" height="36" fill="#0D1117"/>
+    <line x1="4" y1="80" x2="116" y2="80" stroke="#243040" stroke-width="0.75"/>
+
+    <!-- Console header label -->
+    <rect x="10" y="84" width="22" height="2" fill="#4A8FBF" opacity="0.5"/>
+    <!-- AI accent bar -->
+    <line x1="10" y1="84" x2="10" y2="86" stroke="#4A8FBF" stroke-width="1.5" opacity="0.75"/>
+
+    <!-- Routing confidence score — far right mini-bar stack -->
+    <rect x="98" y="83" width="14" height="3" fill="none" stroke="#1A2230" stroke-width="0.5"/>
+    <rect x="98" y="83" width="12" height="3" fill="#1E8449" opacity="0.28"/>
+
+    <rect x="98" y="88" width="14" height="3" fill="none" stroke="#1A2230" stroke-width="0.5"/>
+    <rect x="98" y="88" width="7"  height="3" fill="#D68910" opacity="0.28"/>
+
+    <rect x="98" y="93" width="14" height="3" fill="none" stroke="#1A2230" stroke-width="0.5"/>
+    <rect x="98" y="93" width="14" height="3" fill="#C0392B" opacity="0.14"/>
+
+    <!-- ── Routing diagram ────────────────────────────────────── -->
+    <!-- INPUT NODES (incoming tickets) -->
+
+    <!-- Ticket node A — warning -->
+    <rect x="12" y="90" width="9" height="6" fill="none" stroke="#D68910" stroke-width="0.65" opacity="0.8"/>
+    <rect x="13" y="91.5" width="6" height="1.5" fill="#D68910" opacity="0.35"/>
+
+    <!-- Ticket node B — accent -->
+    <rect x="12" y="100" width="9" height="6" fill="none" stroke="#4A8FBF" stroke-width="0.65" opacity="0.7"/>
+    <rect x="13" y="101.5" width="6" height="1.5" fill="#4A8FBF" opacity="0.35"/>
+
+    <!-- Ticket node C — dim -->
+    <rect x="12" y="110" width="9" height="5" fill="none" stroke="#243040" stroke-width="0.5"/>
+    <rect x="13" y="111" width="6" height="1.5" fill="#5A7184" opacity="0.3"/>
+
+    <!-- Horizontal lines from input nodes to junction bend -->
+    <!-- Node A → bend at x=30 -->
+    <polyline points="21,93 30,93 30,97" stroke="url(#d-route)" stroke-width="0.75" fill="none"/>
+    <!-- Node B → bend at x=30 -->
+    <polyline points="21,103 30,103 30,97" stroke="url(#d-route)" stroke-width="0.75" fill="none"/>
+    <!-- Node C → junction 2 (dim) -->
+    <polyline points="21,112.5 30,112.5 30,107" stroke="#1A2230" stroke-width="0.5" fill="none"/>
+
+    <!-- Junction node 1 — AI router, accent -->
+    <rect x="27" y="94" width="6" height="6" fill="none" stroke="#4A8FBF" stroke-width="0.75"/>
+    <rect x="28.5" y="95.5" width="3" height="3" fill="#4A8FBF" opacity="0.75"/>
+
+    <!-- Junction node 2 — dim router -->
+    <rect x="27" y="104" width="6" height="6" fill="none" stroke="#243040" stroke-width="0.75"/>
+    <rect x="28.5" y="105.5" width="3" height="3" fill="#3A4F61" opacity="0.4"/>
+
+    <!-- Output routing lines — with 90° bends -->
+    <!-- Junction 1 → Team A -->
+    <polyline points="33,97 48,97 48,93 62,93" stroke="#4A8FBF" stroke-width="0.75" fill="none" opacity="0.65"/>
+    <!-- Junction 1 → Team B (secondary) -->
+    <polyline points="33,97 48,97 48,108 62,108" stroke="#4A8FBF" stroke-width="0.5" fill="none" opacity="0.3"/>
+    <!-- Junction 2 → dim output -->
+    <polyline points="33,107 48,107 48,113 62,113" stroke="#1A2230" stroke-width="0.5" fill="none"/>
+
+    <!-- Output nodes — team queues -->
+    <!-- Team A — Security queue (accent) -->
+    <rect x="62" y="88" width="22" height="9" fill="none" stroke="#4A8FBF" stroke-width="0.75" opacity="0.7"/>
+    <rect x="64" y="89.5" width="8" height="1.5" fill="#4A8FBF" opacity="0.45"/>
+    <rect x="64" y="93"   width="14" height="1.5" fill="#5A7184" opacity="0.28"/>
+
+    <!-- Team B — Infra queue (dim) -->
+    <rect x="62" y="103" width="22" height="9" fill="none" stroke="#243040" stroke-width="0.75"/>
+    <rect x="64" y="104.5" width="8" height="1.5" fill="#5A7184" opacity="0.3"/>
+    <rect x="64" y="108"   width="12" height="1.5" fill="#3A4F61" opacity="0.25"/>
+
+    <!-- Team C — dim, lower -->
+    <rect x="62" y="113" width="22" height="3" fill="none" stroke="#1A2230" stroke-width="0.5"/>
+    <rect x="64" y="113.5" width="10" height="1.5" fill="#3A4F61" opacity="0.2"/>
+
+  </g>
+
+</svg>

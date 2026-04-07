@@ -7,13 +7,15 @@ import { StatusDot } from '@/components/ui/StatusDot';
 const products = [
   {
     id:       'sentinel',
+    code:     'S-01',
     name:     'Sentinel',
     tagline:  'Security monitoring',
     status:   'live',
     href:     '/sentinel',
     cta:      'Start free →',
+    icon:     '/icons/sentinel.svg',
     checks: [
-      'DNS & email authentication (SPF, DKIM, DMARC)',
+      'DNS & email authentication',
       'SSL certificate expiry monitoring',
       'Microsoft 365 configuration health',
       'NIS2 Article 21 compliance reports',
@@ -22,31 +24,35 @@ const products = [
   },
   {
     id:       'desk',
+    code:     'D-02',
     name:     'Desk',
     tagline:  'IT service management',
     status:   'beta',
     href:     '/desk',
     cta:      'Join waitlist →',
+    icon:     '/icons/desk.svg',
     checks: [
-      'IT ticket management without the configuration hell',
-      'Service catalog with automated delivery pipelines',
-      'AI-assisted ticket resolution and routing',
+      'IT ticket management',
+      'Service catalog with automated pipelines',
+      'AI-assisted routing',
       'SLA tracking and reporting',
     ],
     indicator: 'Beta — join waitlist',
   },
   {
     id:       'launch',
+    code:     'L-03',
     name:     'Launch',
     tagline:  'Cloud deployment',
     status:   'soon',
     href:     '/launch',
     cta:      'Join waitlist →',
+    icon:     '/icons/launch.svg',
     checks: [
-      'Preview environments per GitHub PR on Cloud Run',
-      'Secrets management without the configuration overhead',
-      'Bucket provisioning wired to deployments',
-      'Team-level deployment controls and audit log',
+      'PR preview environments on Cloud Run',
+      'Secrets management',
+      'Bucket provisioning',
+      'Team-level deployment controls',
     ],
     indicator: 'Coming soon',
   },
@@ -59,25 +65,42 @@ const statusConfig = {
 };
 ---
 
-<section id="products" class="border-b border-border-base bg-bg-base px-6 py-24">
+<section id="products" class="border-b border-border-base bg-bg-base px-6 pt-32 pb-36">
   <div class="max-w-7xl mx-auto">
 
     <SectionMarker label="02 / Products" />
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base">
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-0 border border-border-base">
       {products.map((p, i) => {
         const cfg = statusConfig[p.status];
         const isLive = p.status === 'live';
         return (
           <div class:list={[
-            "flex flex-col",
+            "flex flex-col relative",
             i < products.length - 1 && "border-b md:border-b-0 md:border-r border-border-base",
-            !isLive && "opacity-70",
+            isLive ? "bg-bg-raised border-l-2 border-l-accent" : "bg-bg-base",
           ]}>
 
+            <!-- Watermark code -->
+            <span class="absolute top-6 right-6 font-mono text-5xl font-bold text-text-dim opacity-10 leading-none select-none pointer-events-none">
+              {p.code}
+            </span>
+
+            <!-- Product icon -->
+            <div class="px-6 pt-8 pb-0">
+              <img
+                src={p.icon}
+                alt={`${p.name} product illustration`}
+                width="120"
+                height="120"
+                class="w-[120px] h-[120px]"
+                loading="lazy"
+              />
+            </div>
+
             <!-- Card header -->
-            <div class="px-6 pt-8 pb-6 border-b border-border-dim">
-              <div class="flex items-center justify-between mb-4">
+            <div class="px-6 pt-5 pb-6 border-b border-border-dim">
+              <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-2">
                   <StatusDot color={cfg.color} blink={cfg.blink} />
                   <span class:list={["font-mono text-xs uppercase tracking-widest", cfg.labelClass]}>
@@ -98,17 +121,17 @@ const statusConfig = {
             </div>
 
             <!-- Check list -->
-            <div class="px-6 py-6 flex-1 space-y-3">
+            <div class="px-6 py-8 flex-1 space-y-4">
               {p.checks.map(check => (
                 <div class="flex items-start gap-3">
-                  <StatusDot color="muted" size="xs" className="mt-1.5" />
+                  <StatusDot color="muted" size="xs" className="mt-1.5 shrink-0" />
                   <span class="font-body text-sm text-text-muted leading-snug">{check}</span>
                 </div>
               ))}
             </div>
 
             <!-- Card footer / CTA -->
-            <div class="px-6 pb-8">
+            <div class="px-6 pb-8 border-t border-border-dim pt-8">
               <Button
                 href={p.href}
                 variant={isLive ? 'primary' : 'ghost'}

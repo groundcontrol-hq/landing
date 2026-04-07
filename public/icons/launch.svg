@@ -1,0 +1,234 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120" fill="none">
+  <defs>
+    <!-- Background panel gradient -->
+    <linearGradient id="l-bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0D1117"/>
+      <stop offset="100%" stop-color="#080B0F"/>
+    </linearGradient>
+
+    <!-- Pipeline flow gradient — left to right -->
+    <linearGradient id="l-flow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#4A8FBF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#4A8FBF" stop-opacity="0.25"/>
+    </linearGradient>
+
+    <!-- Deploy success bar fill -->
+    <linearGradient id="l-deploy" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1E8449" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#1E8449" stop-opacity="0.15"/>
+    </linearGradient>
+
+    <!-- Secrets vault bg -->
+    <linearGradient id="l-vault" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#1A2230"/>
+      <stop offset="100%" stop-color="#0D1117"/>
+    </linearGradient>
+
+    <clipPath id="l-clip">
+      <rect x="4" y="4" width="112" height="112"/>
+    </clipPath>
+  </defs>
+
+  <!-- ── Outer frame ─────────────────────────────────────────── -->
+  <rect x="4" y="4" width="112" height="112" fill="url(#l-bg)" stroke="#243040" stroke-width="1"/>
+
+  <!-- Corner cut mark — top right (accent) -->
+  <polyline points="96,4 112,4 112,20" stroke="#4A8FBF" stroke-width="1" opacity="0.6"/>
+  <!-- Corner mark — bottom left (dim) -->
+  <polyline points="24,116 4,116 4,100" stroke="#243040" stroke-width="1" opacity="0.5"/>
+
+  <g clip-path="url(#l-clip)">
+
+    <!-- ── Header bar ─────────────────────────────────────────── -->
+    <rect x="4" y="4" width="112" height="14" fill="#0D1117"/>
+    <line x1="4" y1="18" x2="116" y2="18" stroke="#243040" stroke-width="0.75"/>
+    <!-- Status dot — pass (deployed) -->
+    <rect x="10" y="9" width="4" height="4" fill="#1E8449"/>
+    <!-- Header labels -->
+    <rect x="18" y="10" width="16" height="2" fill="#5A7184" opacity="0.6"/>
+    <rect x="38" y="10" width="10" height="2" fill="#3A4F61" opacity="0.5"/>
+    <!-- Right label -->
+    <rect x="88" y="10" width="22" height="2" fill="#3A4F61" opacity="0.4"/>
+
+    <!-- ════════════════════════════════════════════════════════
+         GIT BRANCH TOPOLOGY — top section (rows 18–62)
+         Main branch + PR forks + merge → deploy
+         ════════════════════════════════════════════════════════ -->
+
+    <!-- Subtle background grid -->
+    <line x1="4"  y1="30" x2="116" y2="30" stroke="#1A2230" stroke-width="0.5" opacity="0.6"/>
+    <line x1="4"  y1="44" x2="116" y2="44" stroke="#1A2230" stroke-width="0.5" opacity="0.6"/>
+    <line x1="4"  y1="58" x2="116" y2="58" stroke="#1A2230" stroke-width="0.5" opacity="0.6"/>
+
+    <!-- ── Main branch spine ───────────────────────────────── -->
+    <line x1="10" y1="36" x2="106" y2="36" stroke="#243040" stroke-width="0.75"/>
+
+    <!-- Commit node 1 — base, merged -->
+    <rect x="8" y="32" width="8" height="8" fill="#131920" stroke="#4A8FBF" stroke-width="0.75"/>
+    <rect x="10" y="34" width="4" height="4" fill="#4A8FBF" opacity="0.8"/>
+
+    <!-- Commit node 2 — checkpoint -->
+    <rect x="26" y="32" width="8" height="8" fill="#131920" stroke="#243040" stroke-width="0.75"/>
+    <rect x="28" y="34" width="4" height="4" fill="#5A7184" opacity="0.4"/>
+
+    <!-- PR branch fork down from node 2 -->
+    <line x1="30" y1="40" x2="30" y2="50" stroke="#4A8FBF" stroke-width="0.75" opacity="0.6"/>
+
+    <!-- Commit node 3 — another checkpoint -->
+    <rect x="44" y="32" width="8" height="8" fill="#131920" stroke="#D68910" stroke-width="0.75" opacity="0.7"/>
+    <rect x="46" y="34" width="4" height="4" fill="#D68910" opacity="0.4"/>
+
+    <!-- PR branch fork down from node 3 -->
+    <line x1="48" y1="40" x2="48" y2="50" stroke="#D68910" stroke-width="0.75" opacity="0.5"/>
+
+    <!-- Commit node 4 — merge point -->
+    <rect x="62" y="32" width="8" height="8" fill="#131920" stroke="#4A8FBF" stroke-width="1"/>
+    <rect x="64" y="34" width="4" height="4" fill="#4A8FBF" opacity="0.9"/>
+
+    <!-- Arrow: merge → deploy node -->
+    <line x1="70" y1="36" x2="80" y2="36" stroke="url(#l-flow)" stroke-width="1"/>
+    <!-- Arrow head (sharp polygon) -->
+    <polygon points="80,33 87,36 80,39" fill="#4A8FBF" opacity="0.75"/>
+
+    <!-- Deploy target node — prominent -->
+    <rect x="88" y="29" width="24" height="15" fill="#131920" stroke="#4A8FBF" stroke-width="0.75" opacity="0.85"/>
+    <rect x="89" y="30" width="22" height="5" fill="#1A2230"/>
+    <rect x="91" y="31" width="6"  height="2" fill="#4A8FBF" opacity="0.5"/>
+    <rect x="99" y="31" width="9"  height="2" fill="#3A4F61" opacity="0.3"/>
+    <line x1="88" y1="35" x2="112" y2="35" stroke="#243040" stroke-width="0.5"/>
+    <rect x="91" y="37" width="3"  height="3" fill="#1E8449" opacity="0.7"/>
+    <rect x="96" y="37.5" width="10" height="1.5" fill="#5A7184" opacity="0.3"/>
+    <rect x="91" y="41" width="16" height="1.5" fill="#3A4F61" opacity="0.25"/>
+
+    <!-- ── Preview environment cards (below branch forks) ─────── -->
+
+    <!-- PR #1 env card — passing -->
+    <rect x="20" y="50" width="20" height="12" fill="none" stroke="#4A8FBF" stroke-width="0.5" opacity="0.55"/>
+    <rect x="21" y="51" width="18" height="3" fill="#131920"/>
+    <rect x="22" y="52" width="8"  height="1.5" fill="#4A8FBF" opacity="0.35"/>
+    <rect x="22" y="55.5" width="3"  height="3" fill="#1E8449" opacity="0.6"/>
+    <rect x="26" y="56" width="10" height="1.5" fill="#3A4F61" opacity="0.3"/>
+    <rect x="22" y="59" width="14" height="1.5" fill="#3A4F61" opacity="0.2"/>
+
+    <!-- PR #2 env card — failing test -->
+    <rect x="40" y="50" width="20" height="12" fill="none" stroke="#D68910" stroke-width="0.5" opacity="0.55"/>
+    <rect x="41" y="51" width="18" height="3" fill="#131920"/>
+    <rect x="42" y="52" width="8"  height="1.5" fill="#D68910" opacity="0.35"/>
+    <rect x="42" y="55.5" width="3"  height="3" fill="#D68910" opacity="0.5"/>
+    <rect x="46" y="56" width="10" height="1.5" fill="#3A4F61" opacity="0.3"/>
+    <rect x="42" y="59" width="12" height="1.5" fill="#3A4F61" opacity="0.2"/>
+
+    <!-- ════════════════════════════════════════════════════════
+         PIPELINE STAGES — middle band (rows 62–90)
+         ════════════════════════════════════════════════════════ -->
+
+    <line x1="4" y1="62" x2="116" y2="62" stroke="#243040" stroke-width="0.75"/>
+    <rect x="4" y="62" width="112" height="10" fill="#131920"/>
+    <line x1="4" y1="72" x2="116" y2="72" stroke="#1A2230" stroke-width="0.75"/>
+
+    <!-- Column separators for stages -->
+    <line x1="32"  y1="62" x2="32"  y2="92" stroke="#1A2230" stroke-width="0.5"/>
+    <line x1="60"  y1="62" x2="60"  y2="92" stroke="#1A2230" stroke-width="0.5"/>
+    <line x1="88"  y1="62" x2="88"  y2="92" stroke="#1A2230" stroke-width="0.5"/>
+
+    <!-- Stage header text blocks -->
+    <rect x="8"  y="65.5" width="14" height="1.5" fill="#4A8FBF" opacity="0.45"/>
+    <rect x="36" y="65.5" width="16" height="1.5" fill="#3A4F61" opacity="0.4"/>
+    <rect x="64" y="65.5" width="12" height="1.5" fill="#3A4F61" opacity="0.4"/>
+    <rect x="92" y="65.5" width="14" height="1.5" fill="#3A4F61" opacity="0.4"/>
+
+    <!-- Stage 1 — SOURCE: pass -->
+    <rect x="8"  y="75" width="20" height="7" fill="url(#l-deploy)" opacity="0.85"/>
+    <rect x="8"  y="75" width="20" height="7" fill="none" stroke="#1E8449" stroke-width="0.5" opacity="0.6"/>
+    <rect x="10" y="77" width="5"  height="1.5" fill="#1E8449" opacity="0.5"/>
+
+    <!-- Stage 2 — BUILD: pass -->
+    <rect x="36" y="75" width="20" height="7" fill="url(#l-deploy)" opacity="0.65"/>
+    <rect x="36" y="75" width="20" height="7" fill="none" stroke="#1E8449" stroke-width="0.5" opacity="0.5"/>
+    <rect x="38" y="77" width="10" height="1.5" fill="#1E8449" opacity="0.4"/>
+
+    <!-- Stage 3 — TEST: warning -->
+    <rect x="64" y="75" width="20" height="7" fill="#D68910" opacity="0.08"/>
+    <rect x="64" y="75" width="20" height="7" fill="none" stroke="#D68910" stroke-width="0.5" opacity="0.5"/>
+    <rect x="66" y="77" width="8"  height="1.5" fill="#D68910" opacity="0.4"/>
+
+    <!-- Stage 4 — DEPLOY: pending -->
+    <rect x="92" y="75" width="20" height="7" fill="none" stroke="#243040" stroke-width="0.5"/>
+    <rect x="94" y="77" width="10" height="1.5" fill="#3A4F61" opacity="0.3"/>
+
+    <!-- Flow arrows between stages -->
+    <line x1="28" y1="78.5" x2="36" y2="78.5" stroke="#1E8449" stroke-width="0.75" opacity="0.5"/>
+    <polyline points="33,76.5 36,78.5 33,80.5" stroke="#1E8449" stroke-width="0.5" fill="none" opacity="0.5"/>
+
+    <line x1="56" y1="78.5" x2="64" y2="78.5" stroke="#D68910" stroke-width="0.75" opacity="0.4"/>
+    <polyline points="61,76.5 64,78.5 61,80.5" stroke="#D68910" stroke-width="0.5" fill="none" opacity="0.4"/>
+
+    <line x1="84" y1="78.5" x2="92" y2="78.5" stroke="#243040" stroke-width="0.75" opacity="0.5"/>
+    <polyline points="89,76.5 92,78.5 89,80.5" stroke="#243040" stroke-width="0.5" fill="none" opacity="0.5"/>
+
+    <line x1="4" y1="92" x2="116" y2="92" stroke="#243040" stroke-width="0.75"/>
+
+    <!-- ════════════════════════════════════════════════════════
+         SECRETS MANAGEMENT PANEL — bottom (rows 92–116)
+         ════════════════════════════════════════════════════════ -->
+
+    <rect x="4" y="92" width="112" height="24" fill="#0D1117"/>
+
+    <!-- Vault header label -->
+    <rect x="10" y="96" width="22" height="2" fill="#4A8FBF" opacity="0.45"/>
+    <line x1="10" y1="96" x2="10" y2="98" stroke="#4A8FBF" stroke-width="1.5" opacity="0.75"/>
+
+    <!-- Lock icon — angular, no rounded corners -->
+    <!-- Shackle (two vertical lines + top crossbar) -->
+    <line x1="101" y1="95" x2="101" y2="93" stroke="#243040" stroke-width="0.75" opacity="0.8"/>
+    <line x1="107" y1="95" x2="107" y2="93" stroke="#243040" stroke-width="0.75" opacity="0.8"/>
+    <line x1="101" y1="93" x2="107" y2="93" stroke="#243040" stroke-width="0.75" opacity="0.8"/>
+    <!-- Body -->
+    <rect x="99" y="95" width="10" height="8" fill="none" stroke="#4A8FBF" stroke-width="0.75" opacity="0.55"/>
+    <rect x="101" y="97" width="6"  height="4" fill="#4A8FBF" opacity="0.1"/>
+    <rect x="103" y="98" width="2"  height="2" fill="#4A8FBF" opacity="0.5"/>
+
+    <!-- Secret rows — key = ██████ [status] -->
+    <!-- Row 1 -->
+    <rect x="10" y="101" width="12" height="1.5" fill="#5A7184" opacity="0.5"/>
+    <line x1="24" y1="101.75" x2="26" y2="101.75" stroke="#3A4F61" stroke-width="1" opacity="0.5"/>
+    <!-- Masked value blocks -->
+    <rect x="28" y="101" width="4"  height="1.5" fill="#4A8FBF" opacity="0.4"/>
+    <rect x="33" y="101" width="4"  height="1.5" fill="#4A8FBF" opacity="0.3"/>
+    <rect x="38" y="101" width="4"  height="1.5" fill="#4A8FBF" opacity="0.22"/>
+    <rect x="43" y="101" width="4"  height="1.5" fill="#4A8FBF" opacity="0.15"/>
+    <rect x="48" y="101" width="4"  height="1.5" fill="#4A8FBF" opacity="0.1"/>
+    <!-- Status -->
+    <rect x="56" y="100.5" width="5" height="2.5" fill="#1E8449" opacity="0.4"/>
+
+    <!-- Row 2 -->
+    <rect x="10" y="106" width="16" height="1.5" fill="#5A7184" opacity="0.4"/>
+    <line x1="28" y1="106.75" x2="30" y2="106.75" stroke="#3A4F61" stroke-width="1" opacity="0.4"/>
+    <rect x="32" y="106" width="4"  height="1.5" fill="#2D5A7A" opacity="0.5"/>
+    <rect x="37" y="106" width="4"  height="1.5" fill="#2D5A7A" opacity="0.4"/>
+    <rect x="42" y="106" width="4"  height="1.5" fill="#2D5A7A" opacity="0.3"/>
+    <rect x="47" y="106" width="4"  height="1.5" fill="#2D5A7A" opacity="0.2"/>
+    <rect x="56" y="105.5" width="5" height="2.5" fill="#1E8449" opacity="0.35"/>
+
+    <!-- Row 3 — warning: env var not configured -->
+    <rect x="10" y="111" width="10" height="1.5" fill="#D68910" opacity="0.55"/>
+    <line x1="22" y1="111.75" x2="24" y2="111.75" stroke="#3A4F61" stroke-width="1" opacity="0.4"/>
+    <!-- Warning indicator -->
+    <rect x="26" y="110.5" width="5" height="5" fill="none" stroke="#D68910" stroke-width="0.5" opacity="0.7"/>
+    <rect x="27.5" y="112" width="2" height="2" fill="#D68910" opacity="0.5"/>
+    <rect x="34" y="111" width="18" height="1.5" fill="#3A4F61" opacity="0.25"/>
+    <rect x="56" y="110.5" width="5" height="2.5" fill="#D68910" opacity="0.25"/>
+
+    <!-- Divider above footer -->
+    <line x1="4" y1="114" x2="116" y2="114" stroke="#1A2230" stroke-width="0.5"/>
+    <!-- Footer summary blocks -->
+    <rect x="10"  y="115.5" width="12" height="1" fill="#3A4F61" opacity="0.4"/>
+    <rect x="26"  y="115.5" width="6"  height="1" fill="#4A8FBF" opacity="0.3"/>
+    <rect x="80"  y="115.5" width="30" height="1" fill="#3A4F61" opacity="0.3"/>
+
+  </g>
+
+  <!-- ── Outer accent corner — top right (redrawn over clip) ── -->
+  <polyline points="96,4 112,4 112,20" stroke="#4A8FBF" stroke-width="1" opacity="0.6"/>
+
+</svg>
