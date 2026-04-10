@@ -3,6 +3,7 @@
 import Logo from '../ui/Logo.astro';
 import { Button } from '@/components/ui/Button';
 import { StatusDot } from '@/components/ui/StatusDot';
+import { PLATFORM_SIGNIN_URL, PLATFORM_SIGNUP_URL } from '@/config';
 
 const currentPath = Astro.url.pathname;
 
@@ -14,7 +15,6 @@ const products = [
 
 const nav = [
   { label: 'Pricing',  href: '/sentinel#pricing' },
-  { label: 'Blog',     href: '/blog' },
 ] as const;
 ---
 
@@ -81,12 +81,12 @@ const nav = [
     <!-- CTA -->
     <div class="flex items-center gap-3 ml-6">
       <a
-        href="/signin"
+        href={PLATFORM_SIGNIN_URL}
         class="font-mono text-xs text-text-muted uppercase tracking-widest hover:text-text-primary transition-colors duration-150 hidden md:block"
       >
         Sign in
       </a>
-      <Button href="/sentinel#check" size="sm">Start free →</Button>
+      <Button href={PLATFORM_SIGNUP_URL} size="sm">Start free →</Button>
     </div>
 
   </nav>

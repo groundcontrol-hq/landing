@@ -1,0 +1,109 @@
+---
+import Layout from '@/components/layout/Layout.astro';
+
+const lastUpdated = '2026-04-10';
+
+const sections = [
+  {
+    id: '01',
+    title: 'Acceptance of Terms',
+    body: `By accessing or using Ground Control ("Service"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Service. These terms apply to all users, including free and paid accounts.`,
+  },
+  {
+    id: '02',
+    title: 'Description of Service',
+    body: `Ground Control provides security and IT operations tooling for European technology companies. The Service includes domain and email security monitoring (Sentinel), IT helpdesk (Desk), and infrastructure launch tooling (Launch). Features vary by plan.`,
+  },
+  {
+    id: '03',
+    title: 'Account Registration',
+    body: `You must provide accurate, current, and complete information when creating an account. You are responsible for maintaining the confidentiality of your credentials and for all activity under your account. Notify us immediately at security@groundcontrol.land of any unauthorised access.`,
+  },
+  {
+    id: '04',
+    title: 'Acceptable Use',
+    body: `You agree not to use the Service to scan domains you do not own or have explicit authorisation to test, to interfere with or disrupt the Service or its infrastructure, to reverse-engineer or extract proprietary logic from the Service, or to violate any applicable law or regulation. We reserve the right to suspend accounts that breach these terms without prior notice.`,
+  },
+  {
+    id: '05',
+    title: 'Subscription and Payment',
+    body: `Paid plans are billed in advance on a monthly or annual basis. All prices are in EUR and exclude applicable taxes. Subscriptions renew automatically unless cancelled before the renewal date. Refunds are issued at our discretion within 14 days of initial purchase for annual plans.`,
+  },
+  {
+    id: '06',
+    title: 'Data Ownership',
+    body: `You retain full ownership of your data. We process it solely to provide the Service as described in our Privacy Policy. We do not sell your data to third parties. On account termination, you may request an export of your data within 30 days.`,
+  },
+  {
+    id: '07',
+    title: 'Service Availability',
+    body: `We target 99.5% monthly uptime for paid plans. Scheduled maintenance windows are announced at least 24 hours in advance. Downtime caused by factors outside our control (upstream providers, force majeure) is excluded from SLA calculations. Current status is published at status.groundcontrol.land.`,
+  },
+  {
+    id: '08',
+    title: 'Limitation of Liability',
+    body: `To the maximum extent permitted by law, Ground Control is not liable for indirect, incidental, special, consequential, or punitive damages. Our total liability for any claim arising from your use of the Service is limited to the fees you paid in the 12 months preceding the claim.`,
+  },
+  {
+    id: '09',
+    title: 'Modifications',
+    body: `We may update these terms from time to time. Material changes will be communicated by email at least 30 days before they take effect. Continued use of the Service after the effective date constitutes acceptance.`,
+  },
+  {
+    id: '10',
+    title: 'Governing Law',
+    body: `These terms are governed by the laws of Belgium. Disputes shall be subject to the exclusive jurisdiction of the courts of Brussels, Belgium, unless mandatory consumer protection laws in your country of residence apply.`,
+  },
+];
+---
+
+<Layout
+  title="Terms of Service"
+  description="Ground Control Terms of Service — read the conditions that govern your use of the platform."
+>
+  <section class="max-w-3xl mx-auto px-6 py-24">
+
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-8 h-px bg-accent" />
+      <span class="font-mono text-xs text-accent uppercase tracking-widest">Legal</span>
+    </div>
+
+    <h1 class="font-display text-3xl font-semibold text-text-primary uppercase tracking-tight mb-3">
+      Terms of Service
+    </h1>
+    <p class="font-mono text-xs text-text-dim mb-16">
+      Last updated: <span class="text-text-muted">{lastUpdated}</span>
+    </p>
+
+    <!-- Sections -->
+    <div class="space-y-12">
+      {sections.map(s => (
+        <div class="border-l border-border-dim pl-6">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="font-mono text-xs text-accent uppercase tracking-widest">{s.id}</span>
+            <span class="w-4 h-px bg-border-base" />
+            <h2 class="font-mono text-sm font-medium text-text-primary uppercase tracking-wider">
+              {s.title}
+            </h2>
+          </div>
+          <p class="font-body text-sm text-text-muted leading-relaxed">
+            {s.body}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Contact -->
+    <div class="mt-16 border border-border-base bg-bg-raised p-6">
+      <p class="font-mono text-xs text-text-dim uppercase tracking-widest mb-2">Questions</p>
+      <p class="font-body text-sm text-text-muted">
+        For questions about these terms, contact us at{' '}
+        <a href="mailto:legal@groundcontrol.land" class="text-accent hover:underline font-mono text-xs">
+          legal@groundcontrol.land
+        </a>
+      </p>
+    </div>
+
+  </section>
+</Layout>
