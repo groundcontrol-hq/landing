@@ -1,0 +1,95 @@
+---
+title: "DNS Security 101: What Every European Company Needs to Know"
+description: "DMARC, SPF, DKIM — the email authentication triad that stops domain spoofing. Here's how they work, why misconfiguration is the norm, and what a properly protected domain looks like."
+date: 2026-01-15
+author: "Ground Control Team"
+category: "security"
+translationKey: "dns-security-101"
+lang: "en"
+draft: false
+---
+
+## The problem with email authentication
+
+Every day, attackers send emails that claim to come from `yourcompany.com`. Without the right DNS records in place, your mail server has no way to tell recipients that these are fake. Neither does Google, Microsoft, or any other email provider.
+
+The three protocols that prevent this are **DMARC**, **SPF**, and **DKIM**. Together they form a chain of authentication: SPF and DKIM verify the message, DMARC tells receivers what to do if verification fails.
+
+<InfoBox type="critical" title="The common mistake">
+Most companies have SPF and DKIM configured but leave DMARC at `p=none`. This setting collects reports but enforces nothing. Your domain is still fully spoofable.
+</InfoBox>
+
+## SPF: Authorising senders
+
+An SPF record lists the IP addresses and hostnames that are allowed to send email on behalf of your domain. It lives in DNS as a `TXT` record on your root domain.
+
+A minimal but correct SPF record looks like this:
+
+```
+v=spf1 include:_spf.google.com ~all
+```
+
+The `~all` at the end is a softfail: mail from unlisted sources is accepted but marked suspicious. For stricter enforcement, use `-all` (hardfail).
+
+**What to check:**
+
+- One SPF record per domain (multiple records break SPF)
+- No more than 10 DNS lookups (the limit is easy to hit with third-party senders)
+- All sending services included: transactional mail, marketing platforms, helpdesk tools
+
+## DKIM: Signing messages
+
+DKIM attaches a cryptographic signature to every outgoing email. Receiving mail servers verify the signature against a public key published in your DNS. If the signature is valid, the message is authentic.
+
+DKIM records live at a subdomain like `selector1._domainkey.yourcompany.com`. You get the record value from your email provider.
+
+The minimum key length recommended today is **2048 bits**. 1024-bit keys were deprecated years ago.
+
+<InfoBox type="warning">
+DKIM only signs the message; it does not prevent your domain from being used in the `From:` header. That's DMARC's job.
+</InfoBox>
+
+## DMARC: Enforcing the policy
+
+DMARC (`_dmarc.yourcompany.com`) tells receiving servers what to do when an email fails SPF or DKIM alignment. There are three policy levels:
+
+| Policy | Effect |
+|--------|--------|
+| `p=none` | Monitoring only. Do nothing with failing mail. |
+| `p=quarantine` | Move failing mail to spam. |
+| `p=reject` | Block failing mail entirely. |
+
+The path to enforcement is:
+
+1. Start at `p=none` and monitor reports (`rua=` and `ruf=` tags)
+2. Fix all legitimate sending sources
+3. Move to `p=quarantine`
+4. Move to `p=reject` once you're confident
+
+<CheckList title="DMARC readiness checklist">
+- SPF record published with `-all` or `~all`
+- DKIM configured on all sending domains
+- DMARC record published with `rua=` reporting address
+- No SPF lookup limit exceeded
+- DMARC policy is `p=quarantine` or `p=reject`
+- DKIM keys are 2048 bits minimum
+</CheckList>
+
+## Why `p=none` is not a policy
+
+A surprising number of well-known organisations run their domains with `p=none`. Attackers know this. Phishing campaigns targeting employees, customers, or partners are significantly more effective when they can use a legitimate-looking sender domain.
+
+The cost of moving to `p=reject` is a few hours of configuration review. The cost of not doing it can be an executive phishing incident or a credential-harvesting campaign that starts with a convincing invoice from `billing@yourcompany.com`.
+
+## NIS2 and DNS security
+
+Under NIS2, organisations in the EU are required to implement appropriate technical measures to manage cybersecurity risks. Email authentication is directly relevant: spoofing and phishing are among the most common vectors for the incidents NIS2 aims to prevent.
+
+If you manage services for others (MSP, SaaS, critical infrastructure), your customers' domains are also your problem.
+
+<CallToAction
+  title="Check your domain's email security posture"
+  description="Sentinel scans DMARC, SPF, DKIM and reports exactly what's missing — in under 30 seconds."
+  href="/sentinel"
+  label="Run free check →"
+/>

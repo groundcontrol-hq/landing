@@ -1,0 +1,95 @@
+---
+title: "Sicurezza DNS 101: Cosa Deve Sapere Ogni Azienda Europea"
+description: "DMARC, SPF, DKIM — la triade di autenticazione email che blocca lo spoofing del dominio. Come funzionano, perché le configurazioni errate sono la norma, e come appare un dominio correttamente protetto."
+date: 2026-01-15
+author: "Ground Control Team"
+category: "security"
+translationKey: "dns-security-101"
+lang: "it"
+draft: false
+---
+
+## Il problema con l'autenticazione email
+
+Ogni giorno, gli attaccanti inviano email che sembrano provenire da `tuaazienda.com`. Senza i record DNS corretti, il tuo mail server non ha modo di comunicare ai destinatari che queste sono false. Né lo fa Google, Microsoft, o qualsiasi altro provider email.
+
+I tre protocolli che prevengono questo sono **DMARC**, **SPF** e **DKIM**. Insieme formano una catena di autenticazione: SPF e DKIM verificano il messaggio, DMARC indica ai server riceventi cosa fare se la verifica fallisce.
+
+<InfoBox type="critical" title="L'errore più comune">
+La maggior parte delle aziende ha SPF e DKIM configurati, ma lascia DMARC a `p=none`. Questa impostazione raccoglie solo report ma non applica nessuna policy. Il tuo dominio è ancora completamente falsificabile.
+</InfoBox>
+
+## SPF: Autorizzare i mittenti
+
+Un record SPF elenca gli indirizzi IP e i nomi host autorizzati a inviare email per conto del tuo dominio. Risiede nel DNS come record `TXT` sul dominio radice.
+
+Un record SPF minimale ma corretto:
+
+```
+v=spf1 include:_spf.google.com ~all
+```
+
+Il `~all` finale è un softfail: le email da fonti non elencate vengono accettate ma contrassegnate come sospette. Per un'applicazione più severa, usa `-all` (hardfail).
+
+**Cosa verificare:**
+
+- Un solo record SPF per dominio (record multipli rompono SPF)
+- Non più di 10 lookup DNS (il limite è facile da superare con mittenti terzi)
+- Tutti i servizi di invio inclusi: email transazionali, piattaforme marketing, strumenti helpdesk
+
+## DKIM: Firmare i messaggi
+
+DKIM allega una firma crittografica a ogni email in uscita. I server di ricezione verificano la firma rispetto a una chiave pubblica pubblicata nel tuo DNS. Se la firma è valida, il messaggio è autentico.
+
+I record DKIM risiedono su un sottodominio come `selector1._domainkey.tuaazienda.com`. Il valore del record lo fornisce il tuo provider email.
+
+La lunghezza minima della chiave raccomandata oggi è **2048 bit**. Le chiavi a 1024 bit sono state deprecate anni fa.
+
+<InfoBox type="warning">
+DKIM firma solo il messaggio; non impedisce che il tuo dominio venga usato nell'intestazione `From:`. Questo è compito di DMARC.
+</InfoBox>
+
+## DMARC: Applicare la policy
+
+DMARC (`_dmarc.tuaazienda.com`) indica ai server riceventi cosa fare quando un'email non supera l'allineamento SPF o DKIM. Ci sono tre livelli di policy:
+
+| Policy | Effetto |
+|--------|---------|
+| `p=none` | Solo monitoraggio. Non fare nulla con le email non conformi. |
+| `p=quarantine` | Sposta le email non conformi nello spam. |
+| `p=reject` | Blocca completamente le email non conformi. |
+
+Il percorso verso l'applicazione è:
+
+1. Inizia con `p=none` e monitora i report (`rua=` e `ruf=`)
+2. Correggi tutte le fonti di invio legittime
+3. Passa a `p=quarantine`
+4. Passa a `p=reject` quando sei sicuro
+
+<CheckList title="Checklist per la prontezza DMARC">
+- Record SPF pubblicato con `-all` o `~all`
+- DKIM configurato su tutti i domini di invio
+- Record DMARC pubblicato con indirizzo di reporting `rua=`
+- Limite lookup SPF non superato
+- Policy DMARC è `p=quarantine` o `p=reject`
+- Chiavi DKIM di almeno 2048 bit
+</CheckList>
+
+## Perché `p=none` non è una policy
+
+Un numero sorprendente di organizzazioni note gestisce i propri domini con `p=none`. Gli attaccanti lo sanno. Le campagne di phishing che prendono di mira dipendenti, clienti o partner sono significativamente più efficaci quando possono utilizzare un dominio mittente dall'aspetto legittimo.
+
+Il costo per passare a `p=reject` è qualche ora di revisione della configurazione. Il costo del non farlo può essere un incidente di phishing ai dirigenti o una campagna di raccolta credenziali che inizia con una convincente fattura da `billing@tuaazienda.com`.
+
+## NIS2 e sicurezza DNS
+
+Ai sensi della NIS2, le organizzazioni nell'UE sono tenute ad implementare misure tecniche appropriate per gestire i rischi di cybersecurity. L'autenticazione email è direttamente rilevante: lo spoofing e il phishing sono tra i vettori più comuni per gli incidenti che NIS2 mira a prevenire.
+
+Se gestisci servizi per altri (MSP, SaaS, infrastrutture critiche), anche i domini dei tuoi clienti sono un tuo problema.
+
+<CallToAction
+  title="Controlla la postura di sicurezza email del tuo dominio"
+  description="Sentinel analizza DMARC, SPF, DKIM e segnala esattamente cosa manca — in meno di 30 secondi."
+  href="/sentinel"
+  label="Esegui controllo gratuito →"
+/>

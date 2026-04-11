@@ -1,0 +1,83 @@
+---
+import { languages, getLangLabel } from '@/i18n/utils';
+import type { Lang } from '@/i18n/utils';
+
+interface Translation {
+  lang: Lang;
+  url: string;
+  available: boolean;
+}
+
+interface Props {
+  currentLang: Lang;
+  translations: Translation[];
+  /** 'tabs' for blog index (all langs always available), 'inline' for post header */
+  variant?: 'tabs' | 'inline';
+}
+
+const { currentLang, translations, variant = 'inline' } = Astro.props;
+
+const allLangs = Object.keys(languages) as Lang[];
+---
+
+{variant === 'tabs' && (
+  <div class="flex items-center gap-0 border border-border-base bg-bg-raised w-fit">
+    {allLangs.map(lang => {
+      const t = translations.find(x => x.lang === lang);
+      const isActive = lang === currentLang;
+      return (
+        <a
+          href={t?.url ?? `/blog/${lang}`}
+          class:list={[
+            "px-4 py-2 font-mono text-[10px] uppercase tracking-widest border-r border-border-base last:border-r-0",
+            "transition-colors duration-150",
+            isActive
+              ? "bg-accent text-bg-base"
+              : "text-text-muted hover:text-text-primary hover:bg-bg-overlay",
+          ]}
+          aria-current={isActive ? 'page' : undefined}
+        >
+          {lang.toUpperCase()}
+          <span class="hidden sm:inline ml-1 normal-case tracking-normal opacity-60">
+            {getLangLabel(lang)}
+          </span>
+        </a>
+      );
+    })}
+  </div>
+)}
+
+{variant === 'inline' && (
+  <div class="flex items-center gap-3 flex-wrap">
+    <span class="font-mono text-[10px] text-text-dim uppercase tracking-widest">
+      {currentLang === 'it' ? 'Leggi in' : currentLang === 'fr' ? 'Lire en' : 'Read in'}:
+    </span>
+    <div class="flex items-center gap-0">
+      {allLangs.map(lang => {
+        const t = translations.find(x => x.lang === lang);
+        const isActive = lang === currentLang;
+        const isAvailable = isActive || (t?.available ?? false);
+        return (
+          <span>
+            {isActive ? (
+              <span class="px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest border border-accent bg-accent text-bg-base">
+                {lang.toUpperCase()}
+              </span>
+            ) : isAvailable && t ? (
+              <a
+                href={t.url}
+                class="px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest border border-border-base text-text-muted hover:border-accent hover:text-accent transition-colors duration-150"
+              >
+                {lang.toUpperCase()}
+              </a>
+            ) : (
+              <span class="px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest border border-border-dim text-text-dim cursor-default">
+                {lang.toUpperCase()}
+              </span>
+            )}
+          </span>
+        );
+      })}
+    </div>
+  </div>
+)}

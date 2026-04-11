@@ -1,0 +1,95 @@
+---
+title: "Sécurité DNS 101 : Ce que chaque entreprise européenne doit savoir"
+description: "DMARC, SPF, DKIM — la triade d'authentification email qui bloque l'usurpation de domaine. Comment ils fonctionnent, pourquoi les mauvaises configurations sont la norme, et à quoi ressemble un domaine correctement protégé."
+date: 2026-01-15
+author: "Ground Control Team"
+category: "security"
+translationKey: "dns-security-101"
+lang: "fr"
+draft: false
+---
+
+## Le problème avec l'authentification email
+
+Chaque jour, des attaquants envoient des emails prétendant provenir de `votreentreprise.com`. Sans les bons enregistrements DNS, votre serveur de messagerie n'a aucun moyen d'indiquer aux destinataires que ces emails sont faux. Ni Google, ni Microsoft, ni aucun autre fournisseur de messagerie.
+
+Les trois protocoles qui empêchent cela sont **DMARC**, **SPF** et **DKIM**. Ensemble, ils forment une chaîne d'authentification : SPF et DKIM vérifient le message, DMARC indique aux serveurs récepteurs quoi faire si la vérification échoue.
+
+<InfoBox type="critical" title="L'erreur courante">
+La plupart des entreprises ont configuré SPF et DKIM, mais laissent DMARC à `p=none`. Ce paramètre collecte des rapports mais n'applique rien. Votre domaine reste entièrement usurpable.
+</InfoBox>
+
+## SPF : Autoriser les expéditeurs
+
+Un enregistrement SPF liste les adresses IP et noms d'hôtes autorisés à envoyer des emails au nom de votre domaine. Il réside dans le DNS comme un enregistrement `TXT` sur votre domaine racine.
+
+Un enregistrement SPF minimal mais correct :
+
+```
+v=spf1 include:_spf.google.com ~all
+```
+
+Le `~all` à la fin est un softfail : les emails de sources non listées sont acceptés mais marqués comme suspects. Pour une application plus stricte, utilisez `-all` (hardfail).
+
+**Ce qu'il faut vérifier :**
+
+- Un seul enregistrement SPF par domaine (plusieurs enregistrements cassent SPF)
+- Pas plus de 10 lookups DNS (la limite est facile à dépasser avec des expéditeurs tiers)
+- Tous les services d'envoi inclus : emails transactionnels, plateformes marketing, outils helpdesk
+
+## DKIM : Signer les messages
+
+DKIM attache une signature cryptographique à chaque email sortant. Les serveurs de messagerie récepteurs vérifient la signature par rapport à une clé publique publiée dans votre DNS. Si la signature est valide, le message est authentique.
+
+Les enregistrements DKIM résident sur un sous-domaine comme `selector1._domainkey.votreentreprise.com`. La valeur de l'enregistrement vous est fournie par votre fournisseur de messagerie.
+
+La longueur de clé minimale recommandée aujourd'hui est de **2048 bits**. Les clés de 1024 bits ont été dépréciées il y a des années.
+
+<InfoBox type="warning">
+DKIM ne fait que signer le message ; il n'empêche pas l'utilisation de votre domaine dans l'en-tête `From:`. C'est le rôle de DMARC.
+</InfoBox>
+
+## DMARC : Appliquer la politique
+
+DMARC (`_dmarc.votreentreprise.com`) indique aux serveurs récepteurs quoi faire quand un email échoue à l'alignement SPF ou DKIM. Il y a trois niveaux de politique :
+
+| Politique | Effet |
+|-----------|-------|
+| `p=none` | Surveillance uniquement. Ne rien faire avec les emails non conformes. |
+| `p=quarantine` | Déplacer les emails non conformes vers le spam. |
+| `p=reject` | Bloquer entièrement les emails non conformes. |
+
+Le chemin vers l'application est :
+
+1. Commencer à `p=none` et surveiller les rapports (`rua=` et `ruf=`)
+2. Corriger toutes les sources d'envoi légitimes
+3. Passer à `p=quarantine`
+4. Passer à `p=reject` une fois confiant
+
+<CheckList title="Liste de contrôle DMARC">
+- Enregistrement SPF publié avec `-all` ou `~all`
+- DKIM configuré sur tous les domaines d'envoi
+- Enregistrement DMARC publié avec adresse de reporting `rua=`
+- Limite de lookups SPF non dépassée
+- Politique DMARC est `p=quarantine` ou `p=reject`
+- Clés DKIM d'au moins 2048 bits
+</CheckList>
+
+## Pourquoi `p=none` n'est pas une politique
+
+Un nombre surprenant d'organisations connues gèrent leurs domaines avec `p=none`. Les attaquants le savent. Les campagnes de phishing ciblant les employés, clients ou partenaires sont significativement plus efficaces quand elles peuvent utiliser un domaine expéditeur à l'apparence légitime.
+
+Le coût pour passer à `p=reject` représente quelques heures de revue de configuration. Le coût de ne pas le faire peut être un incident de phishing sur un dirigeant ou une campagne de vol de credentials qui commence par une facture convaincante de `billing@votreentreprise.com`.
+
+## NIS2 et la sécurité DNS
+
+Sous NIS2, les organisations dans l'UE sont tenues d'implémenter des mesures techniques appropriées pour gérer les risques cybersécurité. L'authentification email est directement pertinente : l'usurpation et le phishing sont parmi les vecteurs les plus courants pour les incidents que NIS2 vise à prévenir.
+
+Si vous gérez des services pour d'autres (MSP, SaaS, infrastructures critiques), les domaines de vos clients sont aussi votre problème.
+
+<CallToAction
+  title="Vérifiez la posture de sécurité email de votre domaine"
+  description="Sentinel analyse DMARC, SPF, DKIM et signale exactement ce qui manque — en moins de 30 secondes."
+  href="/sentinel"
+  label="Lancer la vérification gratuite →"
+/>

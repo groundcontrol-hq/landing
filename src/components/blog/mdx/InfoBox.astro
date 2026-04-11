@@ -1,0 +1,30 @@
+---
+type BoxType = 'info' | 'warning' | 'critical' | 'pass';
+
+interface Props {
+  type?: BoxType;
+  title?: string;
+}
+const { type = 'info', title } = Astro.props;
+
+const config: Record<BoxType, { border: string; bg: string; text: string; label: string; dot: string }> = {
+  info:     { border: 'border-info/40',     bg: 'bg-info-bg',     text: 'text-info',     label: 'INFO',    dot: 'bg-info'     },
+  warning:  { border: 'border-warning/40',  bg: 'bg-warning-bg',  text: 'text-warning',  label: 'NOTE',    dot: 'bg-warning'  },
+  critical: { border: 'border-critical/40', bg: 'bg-critical-bg', text: 'text-critical', label: 'WARNING', dot: 'bg-critical' },
+  pass:     { border: 'border-pass/40',     bg: 'bg-pass-bg',     text: 'text-pass',     label: 'TIP',     dot: 'bg-pass'     },
+};
+
+const cfg = config[type];
+---
+
+<div class:list={["my-6 border-l-2 pl-4 py-3 pr-4", cfg.border, cfg.bg]}>
+  <div class="flex items-center gap-2 mb-1">
+    <span class:list={["inline-block w-1.5 h-1.5 shrink-0", cfg.dot]}></span>
+    <span class:list={["font-mono text-[10px] uppercase tracking-widest font-medium", cfg.text]}>
+      {title ?? cfg.label}
+    </span>
+  </div>
+  <div class="text-sm text-text-muted [&>p]:m-0 [&>p]:leading-relaxed">
+    <slot />
+  </div>
+</div>
