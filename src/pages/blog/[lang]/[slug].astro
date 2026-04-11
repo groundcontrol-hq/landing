@@ -1,0 +1,138 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '@/components/layout/Layout.astro';
+import LanguageSwitcher from '@/components/blog/LanguageSwitcher.astro';
+import CallToAction from '@/components/blog/mdx/CallToAction.astro';
+import InfoBox from '@/components/blog/mdx/InfoBox.astro';
+import CheckList from '@/components/blog/mdx/CheckList.astro';
+import { useTranslations, getLangFromId, getSlugFromId, formatDate, SUPPORTED_LANGS } from '@/i18n/utils';
+import type { Lang } from '@/i18n/utils';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map(post => {
+    const lang = getLangFromId(post.id);
+    const slug = getSlugFromId(post.id);
+    return {
+      params: { lang, slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+
+const { Content, headings } = await render(post);
+
+// Find all translations (other language versions of this same article)
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const translationPosts = allPosts.filter(
+  p => p.data.translationKey === post.data.translationKey && p.id !== post.id
+);
+
+const translations = SUPPORTED_LANGS
+  .filter(l => l !== lang)
+  .map(l => {
+    const match = translationPosts.find(p => p.data.lang === l);
+    return {
+      lang: l,
+      url: match ? `/blog/${l}/${getSlugFromId(match.id)}` : `/blog/${l}`,
+      available: !!match,
+    };
+  });
+
+const formattedDate = formatDate(post.data.date, lang);
+
+const categoryLabel = post.data.category.charAt(0).toUpperCase() + post.data.category.slice(1).replace('-', ' ');
+---
+
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  lang={lang}
+>
+  <article class="max-w-3xl mx-auto px-6 py-20">
+
+    <!-- Breadcrumb + back link -->
+    <div class="flex items-center gap-3 mb-8">
+      <a
+        href={`/blog/${lang}`}
+        class="font-mono text-xs text-text-muted uppercase tracking-widest hover:text-accent transition-colors duration-150"
+      >
+        {t('blog.backToBlog')}
+      </a>
+      <span class="text-text-dim">/</span>
+      <span class="font-mono text-xs text-accent uppercase tracking-widest px-2 py-0.5 border border-accent/30 bg-accent-glow">
+        {categoryLabel}
+      </span>
+    </div>
+
+    <!-- Post header -->
+    <header class="mb-10 pb-8 border-b border-border-base">
+      <!-- Language switcher -->
+      <div class="mb-6">
+        <LanguageSwitcher
+          currentLang={lang}
+          translations={translations}
+          variant="inline"
+        />
+      </div>
+
+      <h1 class="font-display text-2xl sm:text-3xl font-bold text-text-primary leading-snug mb-4">
+        {post.data.title}
+      </h1>
+
+      <p class="text-text-muted leading-relaxed mb-6">
+        {post.data.description}
+      </p>
+
+      <!-- Meta -->
+      <div class="flex items-center gap-4 flex-wrap">
+        <div class="flex items-center gap-1.5">
+          <span class="inline-block w-1.5 h-1.5 bg-accent"></span>
+          <span class="font-mono text-[10px] text-text-dim uppercase tracking-wider">
+            {t('blog.by')} {post.data.author}
+          </span>
+        </div>
+        <span class="text-text-dim text-xs">·</span>
+        <span class="font-mono text-[10px] text-text-dim uppercase tracking-wider">
+          {t('blog.publishedOn')} {formattedDate}
+        </span>
+      </div>
+    </header>
+
+    <!-- MDX content -->
+    <div class="blog-prose">
+      <Content components={{ CallToAction, InfoBox, CheckList }} />
+    </div>
+
+    <!-- Post footer -->
+    <footer class="mt-12 pt-8 border-t border-border-base">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <a
+          href={`/blog/${lang}`}
+          class="inline-flex items-center gap-2 font-mono text-xs text-text-muted uppercase tracking-widest hover:text-accent transition-colors duration-150"
+        >
+          {t('blog.backToBlog')}
+        </a>
+
+        <!-- Translation links in footer too -->
+        {translations.filter(tr => tr.available).length > 0 && (
+          <div class="flex items-center gap-3">
+            <span class="font-mono text-[10px] text-text-dim uppercase tracking-wider">
+              {t('blog.alsoAvailable')}:
+            </span>
+            <LanguageSwitcher
+              currentLang={lang}
+              translations={translations}
+              variant="inline"
+            />
+          </div>
+        )}
+      </div>
+    </footer>
+
+  </article>
+</Layout>

@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/components/layout/Layout.astro';
+import BlogCard from '@/components/blog/BlogCard.astro';
+import LanguageSwitcher from '@/components/blog/LanguageSwitcher.astro';
+import { useTranslations, SUPPORTED_LANGS, getBlogIndexUrl } from '@/i18n/utils';
+import type { Lang } from '@/i18n/utils';
+
+export async function getStaticPaths() {
+  return SUPPORTED_LANGS.map(lang => ({ params: { lang } }));
+}
+
+const { lang } = Astro.params as { lang: Lang };
+const t = useTranslations(lang);
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts
+  .filter(p => p.data.lang === lang)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Build language switcher tabs pointing to each blog index
+const langTabs = SUPPORTED_LANGS.map(l => ({
+  lang: l,
+  url: getBlogIndexUrl(l),
+  available: true,
+}));
+
+const categoryLabels: Record<string, string> = {
+  security:       lang === 'it' ? 'Sicurezza'   : lang === 'fr' ? 'Sécurité'   : 'Security',
+  compliance:     lang === 'it' ? 'Conformità'  : lang === 'fr' ? 'Conformité'  : 'Compliance',
+  dns:            'DNS',
+  'email-security': lang === 'it' ? 'Email Security' : 'Email Security',
+  product:        lang === 'it' ? 'Prodotto'    : lang === 'fr' ? 'Produit'     : 'Product',
+};
+---
+
+<Layout
+  title={t('blog.index.title')}
+  description={t('blog.index.description')}
+  lang={lang}
+>
+  <section class="max-w-5xl mx-auto px-6 py-20">
+
+    <!-- Section header -->
+    <div class="mb-10">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-8 h-px bg-accent"></div>
+        <span class="font-mono text-xs text-accent uppercase tracking-widest">
+          {lang === 'it' ? '06 / BLOG' : lang === 'fr' ? '06 / BLOG' : '06 / BLOG'}
+        </span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
+        <h1 class="font-display text-3xl font-bold text-text-primary">
+          {t('blog.index.title')}
+        </h1>
+        <!-- Language switcher tabs -->
+        <LanguageSwitcher
+          currentLang={lang}
+          translations={langTabs}
+          variant="tabs"
+        />
+      </div>
+
+      <p class="text-text-muted mt-4 max-w-xl">
+        {t('blog.index.description')}
+      </p>
+    </div>
+
+    <!-- Horizontal rule -->
+    <div class="border-t border-border-base mb-10"></div>
+
+    <!-- Post grid -->
+    {posts.length === 0 ? (
+      <p class="font-mono text-sm text-text-dim">{t('blog.noPostsFound')}</p>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {posts.map(post => (
+          <BlogCard
+            id={post.id}
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            author={post.data.author}
+            category={categoryLabels[post.data.category] ?? post.data.category}
+            lang={post.data.lang}
+            currentLang={lang}
+          />
+        ))}
+      </div>
+    )}
+
+  </section>
+</Layout>

@@ -1,0 +1,131 @@
+---
+title: "NIS2 in Practice: What Mid-Market Companies Actually Need to Do"
+description: "NIS2 isn't just for large enterprises. If you operate in one of the 18 covered sectors and have more than 50 employees, you're in scope. Here's a practical breakdown of what's required."
+date: 2026-01-28
+author: "Ground Control Team"
+category: "compliance"
+translationKey: "nis2-compliance-guide"
+lang: "en"
+draft: false
+---
+
+## Who is in scope
+
+The NIS2 Directive (EU 2022/2555) entered into force in January 2023 and required member states to transpose it into national law by October 2024. If you're reading this in 2026, your national regulator has likely already begun enforcement.
+
+NIS2 covers organisations in 18 sectors, split into **essential** and **important** entities. If you're in one of these sectors and you have at least 50 employees or €10M annual turnover, you're probably in scope.
+
+**Essential entities** (stricter obligations):
+- Energy, transport, banking, financial markets
+- Health, drinking water, digital infrastructure
+- Public administration, space
+
+**Important entities** (slightly lighter obligations):
+- Postal services, waste management, chemicals
+- Food, manufacturing, digital providers
+- Research organisations
+
+<InfoBox type="info">
+Small enterprises (under 50 employees and under €10M turnover) are generally out of scope. But NIS2's supply chain requirements mean you may face contractual obligations from covered clients regardless of your own size.
+</InfoBox>
+
+## What NIS2 actually requires
+
+Article 21 of NIS2 sets out the minimum security measures. These aren't suggestions — they're legal obligations.
+
+### 1. Risk analysis and information security policies
+
+You need documented policies that cover: how you identify risks, what controls you apply, and how you review them. Auditors and regulators will ask for these.
+
+This doesn't require a full ISO 27001 programme (though that helps). At minimum: a written risk register, an asset inventory, and a review cycle.
+
+### 2. Incident handling
+
+You need a documented incident response process. NIS2 also introduces **mandatory incident reporting** timelines:
+
+- **24 hours**: Early warning to the national CSIRT
+- **72 hours**: Full incident notification
+- **1 month**: Final report
+
+The 24-hour early warning is aggressive. If you don't have an alerting system that catches incidents in real time, you will miss this deadline.
+
+### 3. Business continuity
+
+Backup procedures, disaster recovery, and crisis management. Test your backups. Document your RTO and RPO. Have a crisis communication plan.
+
+### 4. Supply chain security
+
+This is where NIS2 differs from its predecessor. You are responsible for the security practices of your suppliers and service providers. In practice, this means:
+
+- Security questionnaires for critical vendors
+- Contractual requirements around security standards
+- Monitoring for incidents at third parties that could affect you
+
+### 5. Network and information systems security
+
+Basic hygiene: vulnerability management, patch management, access controls, network segmentation. NIS2 explicitly calls out multi-factor authentication.
+
+### 6. Encryption
+
+Use encryption in transit and at rest for sensitive data. Document what is encrypted and where.
+
+<CheckList title="NIS2 minimum baseline">
+- Written information security policy, reviewed annually
+- Asset inventory covering IT and OT systems
+- Documented incident response process
+- CSIRT contact registered with national authority
+- MFA deployed for all privileged access
+- Backup tested in the last 90 days
+- Key vendors assessed for security practices
+- Encryption in place for sensitive data in transit and at rest
+</CheckList>
+
+## Management accountability
+
+NIS2 puts personal liability on senior management. Board members and C-level executives can be held personally responsible for security failures if they failed to oversee compliance.
+
+This is not theoretical. Several EU member states have implemented this explicitly. The days of security being "an IT problem" are over.
+
+## What regulators will look for first
+
+Based on how NIS1 enforcement worked and early signals from NIS2 regulators:
+
+1. **Incident reporting failures** — missing the 24-hour or 72-hour deadlines
+2. **No documented policies** — any written evidence that the obligation was acknowledged
+3. **Supply chain blind spots** — no vendor assessment process
+4. **Email and DNS security gaps** — DMARC, SPF, DKIM are increasingly flagged as baseline hygiene
+
+The last point matters: regulators view email security as table-stakes. If you don't have `p=reject` on your DMARC policy, that's a finding.
+
+<InfoBox type="warning" title="Don't wait for your regulator">
+Enforcement varies by member state, but the direction is consistent. Starting compliance work now costs far less than responding to a regulatory inquiry under time pressure.
+</InfoBox>
+
+## A practical 90-day plan
+
+You can't complete NIS2 compliance in 90 days, but you can get to a defensible position. Here's what to prioritise:
+
+**Days 1–30: Foundation**
+- Confirm whether you're in scope and under which category
+- Start an asset inventory
+- Draft an information security policy (even a simple one)
+- Register with your national CSIRT if required
+
+**Days 31–60: Technical controls**
+- Audit and fix DNS/email security (DMARC, SPF, DKIM)
+- Enable MFA everywhere
+- Verify backup integrity
+- Start a vendor security questionnaire process
+
+**Days 61–90: Process**
+- Document your incident response procedure
+- Identify your 24-hour escalation path
+- Brief senior management on NIS2 obligations
+- Establish a quarterly review cadence
+
+<CallToAction
+  title="Know your DNS security posture before your auditor does"
+  description="Sentinel checks DMARC, SPF, DKIM, and SSL certificates — the technical controls regulators look for first."
+  href="/sentinel"
+  label="Check your domain →"
+/>

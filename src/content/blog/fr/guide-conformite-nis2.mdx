@@ -1,0 +1,131 @@
+---
+title: "NIS2 en Pratique : Ce que les PME Doivent Vraiment Faire"
+description: "NIS2 n'est pas réservée aux grandes entreprises. Si vous opérez dans l'un des 18 secteurs couverts et avez plus de 50 employés, vous êtes dans le périmètre. Voici une analyse pratique de ce qui est requis."
+date: 2026-01-28
+author: "Ground Control Team"
+category: "compliance"
+translationKey: "nis2-compliance-guide"
+lang: "fr"
+draft: false
+---
+
+## Qui est dans le périmètre
+
+La Directive NIS2 (UE 2022/2555) est entrée en vigueur en janvier 2023 et exigeait des États membres qu'ils la transposent en droit national avant octobre 2024. Si vous lisez ceci en 2026, votre régulateur national a probablement déjà commencé l'application.
+
+NIS2 couvre les organisations dans 18 secteurs, répartis en entités **essentielles** et **importantes**. Si vous êtes dans l'un de ces secteurs et avez au moins 50 employés ou 10M€ de chiffre d'affaires annuel, vous êtes probablement dans le périmètre.
+
+**Entités essentielles** (obligations plus strictes) :
+- Énergie, transport, banques, marchés financiers
+- Santé, eau potable, infrastructures numériques
+- Administration publique, espace
+
+**Entités importantes** (obligations légèrement allégées) :
+- Services postaux, gestion des déchets, chimie
+- Alimentaire, fabrication, fournisseurs numériques
+- Organisations de recherche
+
+<InfoBox type="info">
+Les petites entreprises (moins de 50 employés et moins de 10M€ de chiffre d'affaires) sont généralement hors périmètre. Mais les exigences NIS2 sur la chaîne d'approvisionnement signifient que vous pouvez faire face à des obligations contractuelles de clients couverts, quelle que soit votre taille.
+</InfoBox>
+
+## Ce que NIS2 requiert concrètement
+
+L'Article 21 de NIS2 établit les mesures de sécurité minimales. Ce ne sont pas des suggestions — ce sont des obligations légales.
+
+### 1. Analyse des risques et politiques de sécurité
+
+Vous avez besoin de politiques documentées couvrant : comment vous identifiez les risques, quels contrôles vous appliquez, et comment vous les révisez. Les auditeurs et régulateurs les demanderont.
+
+Cela ne nécessite pas un programme ISO 27001 complet (bien que ça aide). Au minimum : un registre des risques écrit, un inventaire des actifs et un cycle de révision.
+
+### 2. Gestion des incidents
+
+Vous avez besoin d'un processus documenté de réponse aux incidents. NIS2 introduit également des **notifications d'incidents obligatoires** avec des délais précis :
+
+- **24 heures** : Alerte précoce au CSIRT national
+- **72 heures** : Notification complète de l'incident
+- **1 mois** : Rapport final
+
+L'alerte précoce de 24 heures est agressive. Si vous n'avez pas de système d'alerte qui détecte les incidents en temps réel, vous manquerez ce délai.
+
+### 3. Continuité d'activité
+
+Procédures de sauvegarde, reprise d'activité et gestion de crise. Testez vos sauvegardes. Documentez vos RTO et RPO. Préparez un plan de communication de crise.
+
+### 4. Sécurité de la chaîne d'approvisionnement
+
+C'est là que NIS2 diffère de son prédécesseur. Vous êtes responsable des pratiques de sécurité de vos fournisseurs et prestataires. En pratique, cela signifie :
+
+- Questionnaires de sécurité pour les fournisseurs critiques
+- Exigences contractuelles sur les standards de sécurité
+- Surveillance des incidents chez des tiers pouvant vous affecter
+
+### 5. Sécurité des réseaux et systèmes d'information
+
+Hygiène de base : gestion des vulnérabilités, gestion des correctifs, contrôles d'accès, segmentation réseau. NIS2 mentionne explicitement l'authentification multi-facteurs.
+
+### 6. Chiffrement
+
+Utilisez le chiffrement en transit et au repos pour les données sensibles. Documentez ce qui est chiffré et où.
+
+<CheckList title="Baseline minimale NIS2">
+- Politique de sécurité des informations écrite, révisée annuellement
+- Inventaire des actifs couvrant systèmes IT et OT
+- Processus de réponse aux incidents documenté
+- Contact CSIRT enregistré auprès de l'autorité nationale
+- MFA déployée pour tous les accès privilégiés
+- Sauvegardes testées dans les 90 derniers jours
+- Principaux fournisseurs évalués pour leurs pratiques de sécurité
+- Chiffrement en place pour les données sensibles en transit et au repos
+</CheckList>
+
+## Responsabilité de la direction
+
+NIS2 attribue une responsabilité personnelle à la direction générale. Les membres du conseil d'administration et les cadres C-level peuvent être tenus personnellement responsables des manquements en matière de sécurité s'ils n'ont pas supervisé la conformité.
+
+Ce n'est pas théorique. Plusieurs États membres de l'UE l'ont implémenté explicitement. L'époque où la sécurité était « un problème informatique » est révolue.
+
+## Ce que les régulateurs chercheront en premier
+
+Sur la base du fonctionnement de l'application NIS1 et des premiers signaux des régulateurs NIS2 :
+
+1. **Défaillances de notification d'incidents** — manquer les délais de 24 ou 72 heures
+2. **Absence de politiques documentées** — toute preuve écrite que l'obligation était reconnue
+3. **Angles morts dans la chaîne d'approvisionnement** — aucun processus d'évaluation des fournisseurs
+4. **Lacunes de sécurité email et DNS** — DMARC, SPF, DKIM sont de plus en plus signalés comme hygiène de base
+
+Le dernier point compte : les régulateurs considèrent la sécurité email comme des prérequis. Si vous n'avez pas `p=reject` dans votre politique DMARC, c'est un constat.
+
+<InfoBox type="warning" title="N'attendez pas votre régulateur">
+L'application varie par État membre, mais la direction est cohérente. Commencer le travail de conformité maintenant coûte bien moins cher que répondre à une enquête réglementaire sous pression temporelle.
+</InfoBox>
+
+## Un plan pratique à 90 jours
+
+Vous ne pouvez pas compléter la conformité NIS2 en 90 jours, mais vous pouvez atteindre une position défendable. Voici quoi prioriser :
+
+**Jours 1–30 : Fondations**
+- Confirmez si vous êtes dans le périmètre et dans quelle catégorie
+- Commencez un inventaire des actifs
+- Rédigez une politique de sécurité des informations (même simple)
+- Enregistrez-vous auprès du CSIRT national si requis
+
+**Jours 31–60 : Contrôles techniques**
+- Auditez et corrigez la sécurité DNS/email (DMARC, SPF, DKIM)
+- Activez la MFA partout
+- Vérifiez l'intégrité des sauvegardes
+- Lancez un processus de questionnaires de sécurité fournisseurs
+
+**Jours 61–90 : Processus**
+- Documentez votre procédure de réponse aux incidents
+- Identifiez votre chemin d'escalade à 24 heures
+- Informez la direction générale des obligations NIS2
+- Établissez une cadence de révision trimestrielle
+
+<CallToAction
+  title="Connaissez votre posture DNS avant votre auditeur"
+  description="Sentinel vérifie DMARC, SPF, DKIM et certificats SSL — les contrôles techniques que les régulateurs cherchent en premier."
+  href="/sentinel"
+  label="Vérifiez votre domaine →"
+/>

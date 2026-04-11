@@ -1,0 +1,36 @@
+---
+interface Props {
+  title?: string;
+}
+const { title } = Astro.props;
+---
+
+<div class="my-6 border border-border-base bg-bg-raised p-5 card-cut">
+  {title && (
+    <p class="font-mono text-xs text-accent uppercase tracking-widest mb-3">{title}</p>
+  )}
+  <ul class="checklist space-y-2">
+    <slot />
+  </ul>
+</div>
+
+<style>
+  .checklist :global(li) {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .checklist :global(li::before) {
+    content: '■';
+    color: var(--color-pass);
+    font-size: 0.5rem;
+    margin-top: 0.375rem;
+    flex-shrink: 0;
+  }
+</style>

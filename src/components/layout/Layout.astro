@@ -8,16 +8,17 @@ interface Props {
   title: string;
   description: string;
   canonical?: string;
+  lang?: string;
 }
 
-const { title, description, canonical = Astro.url.href } = Astro.props;
+const { title, description, canonical = Astro.url.href, lang = 'en' } = Astro.props;
 
 const siteName = "Ground Control";
 const fullTitle = `${title} — ${siteName}`;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -40,6 +41,13 @@ const fullTitle = `${title} — ${siteName}`;
     />
 
     <title>{fullTitle}</title>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-jjvHRb1sRBolmF0oQqaZB.js"></script>
+    <script>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
   </head>
   <body class="bg-bg-base text-text-primary font-body min-h-screen">
     <!-- Scan line — hero aesthetic, subtle -->
