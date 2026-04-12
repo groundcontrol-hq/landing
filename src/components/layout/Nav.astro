@@ -1,5 +1,5 @@
 ---
-// Nav.astro — sticky navigation
+// Nav.astro — sticky navigation with mobile menu
 import Logo from '../ui/Logo.astro';
 import { Button } from '@/components/ui/Button';
 import { StatusDot } from '@/components/ui/StatusDot';
@@ -28,21 +28,20 @@ const nav = [
     nav-transparent
   "
 >
-  <nav class="
-    max-w-7xl mx-auto px-6
-    flex items-center justify-between
-    h-14
-  ">
+  <nav
+    class="max-w-7xl mx-auto px-6 flex items-center justify-between h-14"
+    aria-label="Main navigation"
+  >
 
     <!-- Wordmark -->
-    <a href="/" class="flex items-center gap-3 group">
+    <a href="/" class="flex items-center gap-3 group shrink-0">
       <Logo />
-      <span class="font-display text-sm font-semibold text-text-primary uppercase tracking-widest">
+      <span class="font-display text-sm font-semibold text-text-primary uppercase tracking-widest group-hover:text-accent transition-colors duration-150">
         Ground Control
       </span>
     </a>
 
-    <!-- Products -->
+    <!-- Products (desktop) -->
     <div class="hidden md:flex items-center gap-0 border-l border-border-base ml-8 pl-8">
       {products.map(p => (
         <a
@@ -58,7 +57,9 @@ const nav = [
                   : "text-text-muted hover:text-text-primary"
               : "text-text-dim cursor-default",
           ]}
-          aria-disabled={!p.live}
+          aria-disabled={!p.live || undefined}
+          tabindex={!p.live ? -1 : undefined}
+          aria-current={p.live && currentPath.startsWith(p.href) ? "page" : undefined}
         >
           <StatusDot color={p.live ? 'pass' : 'muted'} size="xs" />
           {p.label}
@@ -67,19 +68,25 @@ const nav = [
       ))}
     </div>
 
-    <!-- Secondary nav -->
+    <!-- Secondary nav (desktop) -->
     <div class="hidden md:flex items-center gap-6 ml-auto">
       {nav.map(n => (
         <a
           href={n.href}
-          class="font-mono text-xs text-text-muted uppercase tracking-widest hover:text-text-primary transition-colors duration-150"
+          class:list={[
+            "font-mono text-xs uppercase tracking-widest transition-colors duration-150",
+            currentPath.startsWith(n.href.split('#')[0]) && n.href !== '/sentinel#pricing'
+              ? "text-accent"
+              : "text-text-muted hover:text-text-primary",
+          ]}
+          aria-current={currentPath.startsWith(n.href.split('#')[0]) && n.href !== '/sentinel#pricing' ? "page" : undefined}
         >
           {n.label}
         </a>
       ))}
     </div>
 
-    <!-- CTA -->
+    <!-- CTA (always visible) -->
     <div class="flex items-center gap-3 ml-6">
       <a
         href={PLATFORM_SIGNIN_URL}
@@ -87,10 +94,104 @@ const nav = [
       >
         Sign in
       </a>
-      <Button href={PLATFORM_SIGNUP_URL} size="sm">Start free →</Button>
+      <Button href={PLATFORM_SIGNUP_URL} size="sm" class="hidden sm:inline-flex">Start free →</Button>
+
+      <!-- Hamburger toggle (mobile only) -->
+      <button
+        id="nav-toggle"
+        type="button"
+        class="md:hidden flex items-center justify-center w-9 h-9 border border-border-base text-text-muted hover:text-text-primary hover:border-border-focus transition-colors duration-150"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <!-- Hamburger icon -->
+        <svg class="icon-open" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <rect x="2" y="4" width="12" height="1.25" fill="currentColor"/>
+          <rect x="2" y="7.375" width="12" height="1.25" fill="currentColor"/>
+          <rect x="2" y="10.75" width="12" height="1.25" fill="currentColor"/>
+        </svg>
+        <!-- Close icon -->
+        <svg class="icon-close" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <line x1="3" y1="3" x2="13" y2="13" stroke="currentColor" stroke-width="1.25" stroke-linecap="square"/>
+          <line x1="13" y1="3" x2="3" y2="13" stroke="currentColor" stroke-width="1.25" stroke-linecap="square"/>
+        </svg>
+      </button>
     </div>
 
   </nav>
+
+  <!-- Mobile menu panel -->
+  <div
+    id="mobile-menu"
+    class="mobile-menu md:hidden border-t border-border-base bg-bg-raised overflow-hidden"
+    aria-hidden="true"
+  >
+    <nav class="px-6 py-6" aria-label="Mobile navigation">
+
+      <!-- Products section -->
+      <p class="font-mono text-[10px] text-text-dim uppercase tracking-widest mb-3">Products</p>
+      <ul class="space-y-0 mb-6" role="list">
+        {products.map(p => (
+          <li role="listitem">
+            {p.live ? (
+              <a
+                href={p.href}
+                class:list={[
+                  "flex items-center gap-3 px-0 py-3 border-b border-border-dim",
+                  "font-mono text-sm uppercase tracking-widest transition-colors duration-150",
+                  currentPath.startsWith(p.href) ? "text-accent" : "text-text-muted hover:text-text-primary",
+                ]}
+                aria-current={currentPath.startsWith(p.href) ? "page" : undefined}
+              >
+                <StatusDot color="pass" size="xs" />
+                {p.label}
+              </a>
+            ) : (
+              <span class="flex items-center gap-3 px-0 py-3 border-b border-border-dim font-mono text-sm uppercase tracking-widest text-text-dim">
+                <StatusDot color="muted" size="xs" />
+                {p.label}
+                <span class="text-[10px] ml-auto">SOON</span>
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      <!-- Secondary links -->
+      <ul class="space-y-0 mb-8" role="list">
+        {nav.map(n => (
+          <li role="listitem">
+            <a
+              href={n.href}
+              class:list={[
+                "block py-3 border-b border-border-dim",
+                "font-mono text-sm uppercase tracking-widest transition-colors duration-150",
+                currentPath.startsWith(n.href.split('#')[0]) && n.href !== '/sentinel#pricing'
+                  ? "text-accent"
+                  : "text-text-muted hover:text-text-primary",
+              ]}
+            >
+              {n.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- CTA buttons -->
+      <div class="flex flex-col gap-3">
+        <Button href={PLATFORM_SIGNUP_URL} size="sm" class="w-full justify-center">Start free →</Button>
+        <a
+          href={PLATFORM_SIGNIN_URL}
+          class="block text-center font-mono text-xs text-text-muted uppercase tracking-widest hover:text-text-primary transition-colors duration-150 py-2"
+        >
+          Sign in
+        </a>
+      </div>
+
+    </nav>
+  </div>
+
 </header>
 
 <style>
@@ -120,19 +221,80 @@ const nav = [
     pointer-events: none;
     z-index: -1;
   }
+
+  /* Mobile menu slide animation */
+  .mobile-menu {
+    max-height: 0;
+    transition: max-height 300ms ease;
+  }
+
+  #site-nav.menu-open .mobile-menu {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  /* Hamburger / close icon toggle */
+  #nav-toggle .icon-open  { display: block; }
+  #nav-toggle .icon-close { display: none;  }
+
+  #site-nav.menu-open #nav-toggle .icon-open  { display: none;  }
+  #site-nav.menu-open #nav-toggle .icon-close { display: block; }
 </style>
 
 <script>
-  const nav = document.getElementById('site-nav');
+  const siteNav = document.getElementById('site-nav');
+  const toggle  = document.getElementById('nav-toggle');
+  const menu    = document.getElementById('mobile-menu');
 
+  // Scroll transparency
   function onScroll() {
     if (window.scrollY > 20) {
-      nav?.classList.replace('nav-transparent', 'nav-scrolled');
+      siteNav?.classList.replace('nav-transparent', 'nav-scrolled');
     } else {
-      nav?.classList.replace('nav-scrolled', 'nav-transparent');
+      siteNav?.classList.replace('nav-scrolled', 'nav-transparent');
     }
   }
-
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  // Mobile menu toggle
+  function openMenu() {
+    siteNav?.classList.add('menu-open');
+    toggle?.setAttribute('aria-expanded', 'true');
+    toggle?.setAttribute('aria-label', 'Close navigation menu');
+    menu?.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    siteNav?.classList.remove('menu-open');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Open navigation menu');
+    menu?.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = siteNav?.classList.contains('menu-open');
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  // Close menu on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && siteNav?.classList.contains('menu-open')) {
+      closeMenu();
+      toggle?.focus();
+    }
+  });
+
+  // Close menu when a link inside it is clicked
+  menu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close menu on resize to desktop
+  const mq = window.matchMedia('(min-width: 768px)');
+  mq.addEventListener('change', (e) => {
+    if (e.matches) closeMenu();
+  });
 </script>

@@ -17,7 +17,11 @@ const config: Record<BoxType, { border: string; bg: string; text: string; label:
 const cfg = config[type];
 ---
 
-<div class:list={["my-6 border-l-2 pl-4 py-3 pr-4", cfg.border, cfg.bg]}>
+<div
+  class:list={["my-6 border-l-2 pl-4 py-3 pr-4", cfg.border, cfg.bg]}
+  role={type === 'critical' ? 'alert' : 'note'}
+  aria-label={title ?? cfg.label}
+>
   <div class="flex items-center gap-2 mb-1">
     <span class:list={["inline-block w-1.5 h-1.5 shrink-0", cfg.dot]}></span>
     <span class:list={["font-mono text-[10px] uppercase tracking-widest font-medium", cfg.text]}>
