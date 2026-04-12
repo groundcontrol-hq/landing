@@ -1,0 +1,4 @@
+[install]
+# @keystatic/astro declares peer astro@"2||3||4||5" but works correctly with v6.
+# Keystatic is dev-only (not built in production), so the mismatch is safe to ignore.
+peer = false
