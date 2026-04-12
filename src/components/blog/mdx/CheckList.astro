@@ -5,13 +5,15 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<div class="my-6 border border-border-base bg-bg-raised p-5 card-cut">
-  {title && (
-    <p class="font-mono text-xs text-accent uppercase tracking-widest mb-3">{title}</p>
-  )}
-  <ul class="checklist space-y-2">
-    <slot />
-  </ul>
+<div class="card-cut-frame my-6">
+  <div class="bg-bg-raised card-cut p-5">
+    {title && (
+      <p class="font-mono text-xs text-accent uppercase tracking-widest mb-3">{title}</p>
+    )}
+    <ul class="checklist space-y-2">
+      <slot />
+    </ul>
+  </div>
 </div>
 
 <style>

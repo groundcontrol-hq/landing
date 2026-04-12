@@ -21,7 +21,7 @@ const allLangs = Object.keys(languages) as Lang[];
 ---
 
 {variant === 'tabs' && (
-  <div class="flex items-center gap-0 border border-border-base bg-bg-raised w-fit">
+  <nav aria-label="Language navigation" class="flex items-center gap-0 border border-border-base bg-bg-raised w-fit">
     {allLangs.map(lang => {
       const t = translations.find(x => x.lang === lang);
       const isActive = lang === currentLang;
@@ -36,6 +36,7 @@ const allLangs = Object.keys(languages) as Lang[];
               : "text-text-muted hover:text-text-primary hover:bg-bg-overlay",
           ]}
           aria-current={isActive ? 'page' : undefined}
+        aria-label={`${getLangLabel(lang)}${isActive ? ' (current)' : ''}`}
         >
           {lang.toUpperCase()}
           <span class="hidden sm:inline ml-1 normal-case tracking-normal opacity-60">
@@ -44,34 +45,43 @@ const allLangs = Object.keys(languages) as Lang[];
         </a>
       );
     })}
-  </div>
+  </nav>
 )}
 
 {variant === 'inline' && (
-  <div class="flex items-center gap-3 flex-wrap">
-    <span class="font-mono text-[10px] text-text-dim uppercase tracking-widest">
+  <nav aria-label="Language navigation" class="flex items-center gap-3 flex-wrap">
+    <span class="font-mono text-[10px] text-text-dim uppercase tracking-widest" aria-hidden="true">
       {currentLang === 'it' ? 'Leggi in' : currentLang === 'fr' ? 'Lire en' : 'Read in'}:
     </span>
-    <div class="flex items-center gap-0">
+    <div class="flex items-center gap-0" role="list">
       {allLangs.map(lang => {
         const t = translations.find(x => x.lang === lang);
         const isActive = lang === currentLang;
         const isAvailable = isActive || (t?.available ?? false);
         return (
-          <span>
+          <span role="listitem">
             {isActive ? (
-              <span class="px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest border border-accent bg-accent text-bg-base">
+              <span
+                class="px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest border border-accent bg-accent text-bg-base"
+                aria-current="page"
+                aria-label={`${getLangLabel(lang)} (current language)`}
+              >
                 {lang.toUpperCase()}
               </span>
             ) : isAvailable && t ? (
               <a
                 href={t.url}
                 class="px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest border border-border-base text-text-muted hover:border-accent hover:text-accent transition-colors duration-150"
+                aria-label={`Read in ${getLangLabel(lang)}`}
               >
                 {lang.toUpperCase()}
               </a>
             ) : (
-              <span class="px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest border border-border-dim text-text-dim cursor-default">
+              <span
+                class="px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest border border-border-dim text-text-dim cursor-default"
+                aria-label={`${getLangLabel(lang)} (not available)`}
+                aria-disabled="true"
+              >
                 {lang.toUpperCase()}
               </span>
             )}
@@ -79,5 +89,5 @@ const allLangs = Object.keys(languages) as Lang[];
         );
       })}
     </div>
-  </div>
+  </nav>
 )}

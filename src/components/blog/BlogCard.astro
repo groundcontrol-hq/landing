@@ -18,36 +18,38 @@ const url = getBlogPostUrl(id);
 const formattedDate = formatDate(date, lang);
 ---
 
-<article class="border border-border-base bg-bg-raised hover:border-border-focus transition-colors duration-150 card-cut group">
-  <a href={url} class="block p-6">
-    <!-- Meta row -->
-    <div class="flex items-center gap-4 mb-4">
-      <span class="font-mono text-[10px] uppercase tracking-widest text-accent border border-accent/30 bg-accent-glow px-2 py-0.5">
-        {category}
-      </span>
-      <span class="font-mono text-[10px] text-text-dim uppercase tracking-wider">
-        {formattedDate}
-      </span>
-    </div>
+<div class="card-cut-frame hover:bg-border-focus group transition-[background-color] duration-150 hover:-translate-y-px">
+  <article class="bg-bg-raised card-cut" aria-label={title}>
+    <a href={url} class="block p-6">
+      <!-- Meta row -->
+      <div class="flex items-center gap-4 mb-4">
+        <span class="font-mono text-[10px] uppercase tracking-widest text-accent border border-accent/30 bg-accent-glow px-2 py-0.5">
+          {category}
+        </span>
+        <span class="font-mono text-[10px] text-text-dim uppercase tracking-wider">
+          {formattedDate}
+        </span>
+      </div>
 
-    <!-- Title -->
-    <h2 class="font-display text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors duration-150 leading-snug">
-      {title}
-    </h2>
+      <!-- Title -->
+      <h2 class="font-display text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors duration-150 leading-snug">
+        {title}
+      </h2>
 
-    <!-- Description -->
-    <p class="text-sm text-text-muted leading-relaxed mb-4 line-clamp-2">
-      {description}
-    </p>
+      <!-- Description -->
+      <p class="text-sm text-text-muted leading-relaxed mb-4 line-clamp-2">
+        {description}
+      </p>
 
-    <!-- Footer -->
-    <div class="flex items-center justify-between">
-      <span class="font-mono text-[10px] text-text-dim uppercase tracking-wider">
-        {author}
-      </span>
-      <span class="font-mono text-[10px] text-accent uppercase tracking-widest group-hover:translate-x-0.5 transition-transform duration-150">
-        {currentLang === 'it' ? 'Leggi →' : currentLang === 'fr' ? 'Lire →' : 'Read →'}
-      </span>
-    </div>
-  </a>
-</article>
+      <!-- Footer -->
+      <div class="flex items-center justify-between">
+        <span class="font-mono text-[10px] text-text-dim uppercase tracking-wider">
+          {author}
+        </span>
+        <span class="font-mono text-[10px] text-accent uppercase tracking-widest group-hover:translate-x-0.5 transition-transform duration-150">
+          {currentLang === 'it' ? 'Leggi →' : currentLang === 'fr' ? 'Lire →' : 'Read →'}
+        </span>
+      </div>
+    </a>
+  </article>
+</div>

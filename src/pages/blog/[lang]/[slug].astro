@@ -56,12 +56,12 @@ const categoryLabel = post.data.category.charAt(0).toUpperCase() + post.data.cat
   <article class="max-w-3xl mx-auto px-6 py-20">
 
     <!-- Breadcrumb + back link -->
-    <div class="flex items-center gap-3 mb-8">
+    <div class="flex items-center gap-3 mb-8" data-reveal>
       <a
         href={`/blog/${lang}`}
-        class="font-mono text-xs text-text-muted uppercase tracking-widest hover:text-accent transition-colors duration-150"
+        class="inline-flex items-center gap-1.5 font-mono text-xs text-text-muted uppercase tracking-widest hover:text-accent hover:-translate-x-0.5 transition-all duration-150"
       >
-        {t('blog.backToBlog')}
+        ← {t('blog.backToBlog')}
       </a>
       <span class="text-text-dim">/</span>
       <span class="font-mono text-xs text-accent uppercase tracking-widest px-2 py-0.5 border border-accent/30 bg-accent-glow">
@@ -70,7 +70,7 @@ const categoryLabel = post.data.category.charAt(0).toUpperCase() + post.data.cat
     </div>
 
     <!-- Post header -->
-    <header class="mb-10 pb-8 border-b border-border-base">
+    <header class="mb-10 pb-8 border-b border-border-base" data-reveal data-reveal-delay="1">
       <!-- Language switcher -->
       <div class="mb-6">
         <LanguageSwitcher
@@ -104,7 +104,7 @@ const categoryLabel = post.data.category.charAt(0).toUpperCase() + post.data.cat
     </header>
 
     <!-- MDX content -->
-    <div class="blog-prose">
+    <div class="blog-prose" data-reveal data-reveal-delay="2">
       <Content components={{ CallToAction, InfoBox, CheckList }} />
     </div>
 
@@ -113,9 +113,9 @@ const categoryLabel = post.data.category.charAt(0).toUpperCase() + post.data.cat
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <a
           href={`/blog/${lang}`}
-          class="inline-flex items-center gap-2 font-mono text-xs text-text-muted uppercase tracking-widest hover:text-accent transition-colors duration-150"
+          class="inline-flex items-center gap-1.5 font-mono text-xs text-text-muted uppercase tracking-widest hover:text-accent hover:-translate-x-0.5 transition-all duration-150"
         >
-          {t('blog.backToBlog')}
+          ← {t('blog.backToBlog')}
         </a>
 
         <!-- Translation links in footer too -->

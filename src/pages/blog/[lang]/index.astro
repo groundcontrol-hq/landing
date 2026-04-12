@@ -42,7 +42,7 @@ const categoryLabels: Record<string, string> = {
   <section class="max-w-5xl mx-auto px-6 py-20">
 
     <!-- Section header -->
-    <div class="mb-10">
+    <div class="mb-10" data-reveal>
       <div class="flex items-center gap-3 mb-6">
         <div class="w-8 h-px bg-accent"></div>
         <span class="font-mono text-xs text-accent uppercase tracking-widest">
@@ -75,17 +75,19 @@ const categoryLabels: Record<string, string> = {
       <p class="font-mono text-sm text-text-dim">{t('blog.noPostsFound')}</p>
     ) : (
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {posts.map(post => (
-          <BlogCard
-            id={post.id}
-            title={post.data.title}
-            description={post.data.description}
-            date={post.data.date}
-            author={post.data.author}
-            category={categoryLabels[post.data.category] ?? post.data.category}
-            lang={post.data.lang}
-            currentLang={lang}
-          />
+        {posts.map((post, i) => (
+          <div data-reveal data-reveal-delay={String((i % 4) + 1)}>
+            <BlogCard
+              id={post.id}
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              author={post.data.author}
+              category={categoryLabels[post.data.category] ?? post.data.category}
+              lang={post.data.lang}
+              currentLang={lang}
+            />
+          </div>
         ))}
       </div>
     )}
